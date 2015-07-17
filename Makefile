@@ -1,8 +1,7 @@
-.PHONY: all clean install
+.PHONY: all install
 
 all:
-
-clean:
+	~/.games/dont_starve/mods/mod_tools/autocompiler ./
 
 install:
-	rsync -caOJWi ./ ~/.games/dont_starve/mods/DreamSnatcher
+	rsync -camOJWi ./ ~/.games/dont_starve/mods/DreamSnatcher
