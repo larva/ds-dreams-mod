@@ -11,5 +11,5 @@ reign_of_giants_compatible = true
 
 api_version = 6
 
-icon_atlas = "modicon.xml"
-icon = "modicon.tex"
+icon_atlas = "images/modicon.xml"
+icon = "images/modicon.tex"
