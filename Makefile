@@ -1,4 +1,4 @@
-.PHONY: all install reset
+.PHONY: all install reset clean
 
 TEX=~/.games/dont_starve/mods/mod_tools/png
 ANIM=~/.games/dont_starve/mods/mod_tools/scml

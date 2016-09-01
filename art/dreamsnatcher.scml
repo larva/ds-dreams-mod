@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="r4.1">
+    <folder id="0" name="dreamsnatcher">
+        <file id="0" name="dreamsnatcher/web.png" width="512" height="512" pivot_x="0.5" pivot_y="1"/>
+        <file id="1" name="dreamsnatcher/void.png" width="512" height="512" pivot_x="0.5" pivot_y="1"/>
+        <file id="2" name="dreamsnatcher/stars.png" width="512" height="512" pivot_x="0.5" pivot_y="1"/>
+        <file id="3" name="dreamsnatcher/stand.png" width="512" height="1024" pivot_x="0.5" pivot_y="0"/>
+        <file id="4" name="dreamsnatcher/spiral.png" width="512" height="512" pivot_x="0.5" pivot_y="0.5"/>
+        <file id="5" name="dreamsnatcher/rim.png" width="512" height="512" pivot_x="0.5" pivot_y="1"/>
+    </folder>
+    <entity id="0" name="dreamsnatcher">
+        <obj_info name="dreamsnatcher_stand" realname="stand" type="sprite">
+            <frames>
+                <i folder="0" file="3"/>
+            </frames>
+        </obj_info>
+        <obj_info name="dreamsnatcher_rim" realname="rim" type="sprite">
+            <frames>
+                <i folder="0" file="5"/>
+            </frames>
+        </obj_info>
+        <obj_info name="dreamsnatcher_web" realname="web" type="sprite">
+            <frames>
+                <i folder="0" file="0"/>
+            </frames>
+        </obj_info>
+        <animation id="0" name="idle" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="stand" folder="0" file="3" abs_x="-265" abs_y="864" abs_angle="360" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" name="rim" folder="0" file="5" abs_x="-262" abs_y="786" abs_angle="360" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" name="web" folder="0" file="0" abs_x="-262" abs_y="786" abs_angle="360" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="2" key="0" z_index="2"/>
+                </key>
+            </mainline>
+            <timeline id="0" obj="0" name="stand">
+                <key id="0" spin="0">
+                    <object folder="0" file="3" x="-9" y="-160"/>
+                </key>
+            </timeline>
+            <timeline id="1" obj="1" name="rim">
+                <key id="0" spin="0">
+                    <object folder="0" file="5" x="-6" y="786"/>
+                </key>
+            </timeline>
+            <timeline id="2" obj="2" name="web">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="-6" y="786"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+</spriter_data>
