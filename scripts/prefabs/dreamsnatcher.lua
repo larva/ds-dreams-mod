@@ -160,8 +160,6 @@ local raving_spawns = {
 
 local assets = {
 	Asset("ANIM", "anim/dreamsnatcher.zip"),
-	--Asset("ATLAS", "images/dreamsnatcher.xml"),
-	--Asset("IMAGE", "images/dreamsnatcher.tex"),
 	--Asset("SOUND", "sound/foo.fsb"),
 }
 
@@ -330,17 +328,17 @@ local function fn(Sim)
 	shadow:SetSize(1, .5)
 
 	local anim = inst.entity:AddAnimState()
-	anim:SetBank("dreamsnatcher")
-	anim:SetBuild("dreamsnatcher")
-	anim:PlayAnimation("idle", true)
+	anim:SetBank("dreamsnatcher") -- Entity Name in Spriter (top level)
+	anim:SetBuild("dreamsnatcher") -- File name (e.g. "filename.zip")
+	anim:PlayAnimation("idle", true) -- Animation in Spriter (bottom level)
 
 	inst.entity:AddSoundEmitter()
 
 	MakeObstaclePhysics(inst, radius)
 
 	local minimap = inst.entity:AddMiniMapEntity()
-	minimap:SetIcon("web.png")
-	minimap:SetPriority(9)
+	minimap:SetIcon("minimap.tex")
+	minimap:SetPriority(1)
 
 	inst:AddTag("structure")
 	inst:AddTag("dreamsnatcher")

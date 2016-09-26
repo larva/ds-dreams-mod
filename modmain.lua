@@ -7,7 +7,7 @@ local STRINGS = GLOBAL.STRINGS
 local TECH = GLOBAL.TECH
 
 STRINGS.NAMES.DREAMSNATCHER_ITEM = "Dreamsnatcher"
-STRINGS.RECIPE_DESC.DREAMSNATCHER_ITEM = "Harness your nightmares."
+STRINGS.RECIPE_DESC.DREAMSNATCHER_ITEM = "Snatch your nightmares."
 
 STRINGS.NAMES.DREAMSNATCHER = "Dreamsnatcher"
 
@@ -16,6 +16,12 @@ STRINGS.CHARACTERS.GENERIC.DESCRIBE.DREAMSNATCHER = "Doubting, dreaming dreams n
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DREAMSNATCHER_ITEM = "And his eyes have all the seeming of a demon's that is dreaming"
 
 PrefabFiles =  { "dreamsnatcher", }
+
+Assets = {
+	Asset("ATLAS", "images/minimap.xml"),
+	Asset("IMAGE", "images/minimap.tex"),
+}
+AddMinimapAtlas("images/minimap.xml")
 
 local dreamsnatcher = GLOBAL.Recipe("dreamsnatcher",
 	{Ingredient("goldnugget", 3),
