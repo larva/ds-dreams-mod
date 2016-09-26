@@ -304,6 +304,24 @@ end
 
 local radius = 1
 
+local function onload(inst, data)
+	if data and data.line then
+		inst.line = data.line
+	end
+	if GetClock():IsDay() then
+		inst.AnimState:PlayAnimation("idle", true)
+	elseif GetClock():IsDusk() or GetClock():IsNight() then
+		--- TODO onwake(inst)
+	end
+end
+
+local function onsave(inst, data)
+	if data == nil then
+		data = {}
+	end
+	data.line = inst.line
+end
+
 local function fn(Sim)
 	local inst = CreateEntity()
 	inst.entity:AddTransform()
@@ -356,6 +374,9 @@ local function fn(Sim)
 	--inst.components.finiteuses:SetMaxUses(TUNING.TENT_USES)
 	--inst.components.finiteuses:SetUses(TUNING.TENT_USES)
 	--inst.components.finiteuses:SetOnFinished(onfinished)
+
+	inst.OnLoad = onload
+	inst.OnSave = onsave
 
 	MakeMediumBurnable(inst)
 	MakeLargePropagator(inst)
