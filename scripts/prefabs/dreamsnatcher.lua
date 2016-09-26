@@ -168,7 +168,7 @@ local assets = {
 local function spawn_loot(inst, prefab)
 	local pos = Vector3(inst.Transform:GetWorldPosition())
 	local item = SpawnPrefab(prefab)
-	pos = pos + FindWalkableOffset(pos, 0, 1.5, 3, true)
+	pos = pos + FindWalkableOffset(pos, 0, 1.5, 3, true) -- simutil.lua
 	item.Transform:SetPosition(pos:Get())
 end
 
@@ -185,12 +185,13 @@ local function find_or_spawn_raven(inst)
 		raven = inst.components.occupiable:GetOccupant()
 	end
 	if not raven then
-		raven = GetClosestInstWithTag("crow", inst, 5)
+		raven = GetClosestInstWithTag("Edgar", inst, 5)
 		if not raven then
 			local pos = Vector3(inst.Transform:GetWorldPosition())
 			local spawnpt = pos + FindWalkableOffset(pos, 0, 1.5, 3, true)
 			spawnpt.y = 15
 			raven = SpawnPrefab(raven_prefab)
+			raven:AddTag("Edgar")
 			raven.Physics:Teleport(spawnpt:Get())
 		end
 		raven:AddTag("busy")
@@ -198,6 +199,7 @@ local function find_or_spawn_raven(inst)
 		raven.components.sleeper:SetNocturnal(true)
 		raven.components.health:SetInvincible(true)
 		inst.components.occupiable:Occupy(raven)
+		inst.antagonist = raven
 
 		-- HACK disable harvesting
 		inst:RemoveTag("occupied")
@@ -219,11 +221,13 @@ local function onsleep(inst)
 		inst:AddTag("occupied")
 		local raven = inst.components.occupiable:Harvest()
 
-		raven.components.sleeper:SetNocturnal(false)
-		raven:RemoveTag("busy")
-		--raven:RemoveStateTag("busy")
+		if raven then
+			raven.components.sleeper:SetNocturnal(false)
+			raven:RemoveTag("busy")
+			--raven:RemoveStateTag("busy")
+			raven.sg:GoToState("flyaway")
+		end
 
-		raven.sg:GoToState("flyaway")
 	end
 	--inst.AnimState:PlayAnimation("idle", true)
 end
@@ -238,7 +242,7 @@ end
 
 local function affect_sanity(inst, observer)
 	if (inst:GetDistanceSqToInst(observer) < 122) then
-		return -TUNING.SANITY_TINY
+		return 0 -- TODO re-enable sanity loss: -TUNING.SANITY_TINY
 	end
 	return 0
 end
@@ -256,6 +260,7 @@ local function ondescribe(inst, viewer)
 
 	local raven = nil
 	local raven_sound = nil
+	local raven_anim = nil
 	local quoth = ravings[inst.line]
 	local spawn = raving_spawns[inst.line]
 
@@ -266,22 +271,27 @@ local function ondescribe(inst, viewer)
 
 	if string.find(quoth, "Nevermore") then
 		raven_sound = "dontstarve/birds/chirp_crow"
+		raven_anim = "caw"
 	elseif string.find(quoth, "flutter") or string.find(quoth, "flitting") then
 		raven_sound = "dontstarve/birds/flyin"
+		raven_anim = "flap"
 	end
 
 	if spawn then
 		spawn = GetRandomItem(spawn)
 	end
 
-	if raven_sound or (spawn == raven_prefab) then
+	if raven_sound or raven_anim or (spawn == raven_prefab) then
 		raven = find_or_spawn_raven(inst)
 		if spawn == raven_prefab then
 			spawn = nil
 		end
 	end
-	if raven_sound then
+	if raven and raven_sound then
 		raven.SoundEmitter:PlaySound(raven_sound, "quoth")
+	end
+	if raven and raven_anim then
+		raven.AnimState:PlayAnimation(raven_anim)
 	end
 
 	if not spawn then
