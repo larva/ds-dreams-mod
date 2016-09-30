@@ -23,3 +23,4 @@ install: all
 clean:
 	find $(CURDIR) -name '*.tex' -print0 | xargs -r0 rm
 	find $(CURDIR) -name '*.zip' -print0 | xargs -r0 rm
+	find $(CURDIR) -name '*.xml' -print0 | xargs -r0 rm
