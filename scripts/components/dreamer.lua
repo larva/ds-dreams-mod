@@ -30,7 +30,7 @@ function Dreamer:StartDreaming()
 		-- No nearby dreamsnatcher to link with
 		return
 	end
-	self.snatcher:Attach(self)
+	self.snatcher:Attach(self.inst)
 end
 
 function Dreamer:StopDreaming()
@@ -38,7 +38,7 @@ function Dreamer:StopDreaming()
 		self.dream:Over()
 	end
 	if self.snatcher then
-		self.snatcher:Detach(self)
+		self.snatcher:Detach(self.inst)
 	end
 	self.dream = nil
 	self.snatcher = nil

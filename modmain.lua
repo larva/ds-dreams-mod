@@ -22,6 +22,14 @@ STRINGS.NAMES.DREAM_ITEM = "Dream"
 STRINGS.NAMES.DREAM = "Dream"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DREAM = "What an odd dream!"
 
+STRINGS.NAMES.DREAM_TENTACLE_ITEM = "Dream feeding filament"
+STRINGS.NAMES.DREAM_TENTACLE = "Dream feeding filament"
+STRINGS.CHARACTERS.GENERIC.DESCRIBE.DREAM_TENTACLE = "It pulses and beats like a grotesque ethereal heart!"
+
+STRINGS.NAMES.DREAM_HAND_ITEM = "Dream feeding sucker"
+STRINGS.NAMES.DREAM_HAND = "Dream feeding sucker"
+STRINGS.CHARACTERS.GENERIC.DESCRIBE.DREAM_HAND = "It makes a hideous sucking sound as it reaps its stygian harvest!"
+
 PrefabFiles =  { "dreamsnatcher", "dream", }
 
 Assets = {

@@ -206,14 +206,14 @@ local function find_or_spawn_raven(inst)
 end
 
 local function onwake(inst)
-	inst.SoundEmitter:PlaySound("dontstarve/sanity/shadowhand_creep", "creeping")
+	--inst.SoundEmitter:PlaySound("dontstarve/sanity/shadowhand_creep", "creeping")
 	inst.Light:Enable(true)
 	--inst.AnimState:PlayAnimation("active_idle", true)
 	find_or_spawn_raven(inst)
 end
 
 local function onsleep(inst)
-	inst.SoundEmitter:KillSound("creeping")
+	--inst.SoundEmitter:KillSound("creeping")
 	inst.Light:Enable(false)
 	if inst.components.occupiable:IsOccupied() then
 		-- HACK re-enable harvesting
@@ -234,10 +234,12 @@ end
 local function onnear(inst)
 	inst.SoundEmitter:PlaySound("dontstarve/rain/thunder_close", "rumble")
 	-- TheCamera:Shake(shakeType, duration, speed, scale)
-	-- See components/quaker.lua
+	-- See components/quaker.lua -- TODO no idea what "40" is!
 	local duration = 100000000
-	local scale = 0.2
-	TheCamera:Shake("FULL", duration, 0.02, scale, 40)
+	local intensity = math.min(100.0, inst.insanity)/100.0
+	local scale = 0.2*intensity
+	local speed = 0.02*intensity
+	TheCamera:Shake("FULL", duration, speed, scale, 40)
 end
 
 local function onfar(inst)
@@ -302,10 +304,13 @@ local function onload(inst, data)
 	if data and data.line then
 		inst.line = data.line
 	end
+	if data and data.insanity then
+		inst.insanity = data.insanity
+	end
 	if GetClock():IsDay() then
 		inst.AnimState:PlayAnimation("idle", true)
 	elseif GetClock():IsDusk() or GetClock():IsNight() then
-		--- TODO onwake(inst)
+		--- TODO onwake(inst) ??
 	end
 end
 
@@ -314,6 +319,7 @@ local function onsave(inst, data)
 		data = {}
 	end
 	data.line = inst.line
+	data.insanity = inst.insanity
 end
 
 local function fn(Sim)
@@ -322,6 +328,7 @@ local function fn(Sim)
 
 	local shadow = inst.entity:AddDynamicShadow()
 	shadow:SetSize(1, .5)
+	shadow:Enable(true)
 
 	local anim = inst.entity:AddAnimState()
 	anim:SetBank("dreamsnatcher") -- Entity Name in Spriter (top level)
@@ -361,24 +368,164 @@ local function fn(Sim)
 	inst:ListenForEvent("gotosleep", onsleep)
 
 	inst:AddComponent("lootdropper")
-	inst.DropLoot = function()
-		inst.components.lootdropper:SpawnLootPrefab("nightmarefuel")
-	end
+	inst.insanity = 0
+	inst.CollectSanity = function(inst, dreamer, duration)
+		if dreamer.components.sanity then
+			-- We've already collected the sanity over time.
+			-- Stop collecting via the sanity callbacks
+			inst:RemoveEventCallback("sanitydelta", dreamer.sanitysuckfn)
+			inst:RemoveEventCallback("gosane", dreamer.sanefn)
+			inst:RemoveEventCallback("goinsane", dreamer.insanefn)
+			dreamer.sanitysuckfn = nil
+			dreamer.sanefn = nil
+			dreamer.insanefn = nil
+		else
+			if duration >= 15 then -- 0.5*TUNING.seg_time
+				inst.insanity = inst.insanity + duration*TUNING.SANITYAURA_TINY
+			end
+		end
 
-	inst.attached_dreamers = {}
-	inst.Attach = function(dreamer)
-		attached_dreamers[dreamer] = dreamer
-		-- TODO start a dream tentacle + hand then move the below
-		--	to the portion where it reaches the dreamer
-		if dreamer.dream then
-			dreamer.dream:Disturb()
+		-- Roughly speaking, somebody has to go insane to make one
+		-- nightmare fuel.
+		local INSANITY_THRESH = 100*(1.0 - TUNING.SANITY_BECOME_INSANE_THRESH)
+
+		while inst.insanity >= INSANITY_THRESH do
+			inst.insanity = inst.insanity - INSANITY_THRESH
+			inst.components.lootdropper:SpawnLootPrefab("nightmarefuel")
+		end
+		if inst.insanity < 0 then
+			inst.insanity = 0
 		end
 	end
 
-	inst.Detach = function(dreamer)
-		attached_dreamers[dreamer] = nil
-		-- TODO cancel a dream tentacle + hand
-		inst:DropLoot()
+	inst.attached_dreamers = {}
+	inst:ListenForEvent("onattachdreamer", function(inst, dreamer)
+		local dream = dreamer.components.dreamer.dream
+		if dream then
+			dream:Disturb()
+			inst.attached_dreamers[dreamer].start = GetTime()
+		end
+		if dreamer.components.sanity then
+			dreamer.sanitysuckfn = function(event)
+				-- All sanity lost accumulates towards
+				-- spawning nightmarefuel
+				local delta = event.oldpercent - event.newpercent
+				-- BUT Sleepers with positive sanity gain wipe
+				--     out any accumulation.
+				if delta < 0 then
+					inst.insanity = 0
+					return
+				end
+				inst.insanity = inst.insanity + delta
+			end
+			dreamer.sanefn = function(event)
+				-- Sleepers that go sane wipe out accumulation
+				inst.insanity = 0
+			end
+			dreamer.insanefn = function(event)
+				-- Sleepers that go insane boost nightmare 
+				-- production alot!
+				inst.insanity = inst.insanity + 100
+			end
+			inst:ListenForEvent("sanitydelta", dreamer.sanitysuckfn)
+			inst:ListenForEvent("gosane", dreamer.sanefn)
+			inst:ListenForEvent("goinsane", dreamer.insanefn)
+		end
+	end)
+	inst.Attach = function(inst, dreamer)
+		if not dreamer then
+			return
+		end
+		if inst.attached_dreamers[dreamer] then
+			return
+		end
+		local hand = SpawnPrefab("shadowhand")--"dreaming/dream_hand")
+		hand:AddTag("notarget")
+		hand:AddTag("notraptrigger")
+		hand.persists = false
+		RemovePhysicsColliders(hand)
+		hand.Physics:SetCollisionGroup(COLLISION.SANITY)
+		hand.Physics:CollidesWith(COLLISION.SANITY)
+		--hand.Physics:CollidesWith(COLLISION.WORLD)
+		hand.Physics:SetMass(10) -- Needs nonzero mass otherwise it never moves!
+		hand.arm = nil
+
+		-- Critical HACKS
+		-- Removing player proximity ensures the shadowhand never
+		-- starts searching for a fire.
+		hand:RemoveComponent("playerprox")
+		-- Removing the daytime callback ensures the hand works for
+		-- nocturnal dreamers too.
+		hand:RemoveEventCallback("daytime", hand.dissipatefn, GetWorld())
+		-- Removing this prevents the shadow arm and hand from being
+		-- saved and thus ensures that the above hacks are always
+		-- applied.
+		hand:RemoveComponent("knownlocations")
+
+		hand.Transform:SetPosition(inst.Transform:GetWorldPosition())
+
+		-- Tune sanity loss to account for extended contact
+		hand.components.sanityaura.aura = -TUNING.SANITYAURA_TINY
+
+		hand.SeekDreamer = function(hand, snatcher, dreamer)
+			hand:ClearBufferedAction()
+			hand.components.locomotor:Clear()
+			hand.arm = SpawnPrefab("shadowhand_arm")
+			hand.arm.persists = false
+			hand.arm:AddTag("notarget")
+			hand.arm:AddTag("notraptrigger")
+			hand.arm.Transform:SetPosition(hand.Transform:GetWorldPosition())
+			hand.arm:FacePoint(Vector3(dreamer.Transform:GetWorldPosition()))
+			hand.arm.components.stretcher:SetStretchTarget(hand)
+			hand.components.locomotor.walkspeed = 2
+			hand.components.locomotor:SetReachDestinationCallback(function(h)
+				assert(h == hand)
+				hand.SoundEmitter:KillAllSounds()
+				snatcher:PushEvent("onattachdreamer", dreamer)
+			end)
+			hand.components.locomotor:GoToEntity(dreamer, nil, false)
+		end
+		hand.Retract = function(hand)
+			hand.components.locomotor:Clear()
+			hand.components.locomotor.walkspeed = 10 
+			hand.AnimState:PlayAnimation("grab_pst")
+			hand.SoundEmitter:PlaySound("dontstarve/sanity/shadowhand_creep", "creeping")
+			hand.components.locomotor:SetReachDestinationCallback(function(h)
+				assert(h == hand)
+				hand.SoundEmitter:KillAllSounds()
+				hand.arm:Remove()
+				hand:Remove()
+			end)
+			hand.components.locomotor:GoToEntity(hand.arm, nil, false)
+		end
+		inst.attached_dreamers[dreamer] = { ["hand"] = hand, ["start"] = nil }
+		hand:SeekDreamer(inst, dreamer)
+	end
+
+	inst.Detach = function(inst, dreamer)
+		if not dreamer then
+			return
+		end
+		local tuple = inst.attached_dreamers[dreamer]
+		if not tuple then
+			return
+		end
+		local hand = tuple.hand
+		if not hand then
+			return
+		end
+		local duration
+		if not tuple.start then
+			duration = 0
+		else
+			duration = GetTime() - tuple.start
+		end
+		inst.attached_dreamers[dreamer] = nil
+		-- TODO could *almost* trigger "startaction" and avoid
+		--      writing our own Retract function.
+		hand:ClearBufferedAction()
+		hand:Retract()
+		inst:CollectSanity(dreamer, duration)
 	end
 
 	inst:AddComponent("occupiable")
@@ -389,7 +536,7 @@ local function fn(Sim)
 	inst.components.playerprox.onfar = onfar
 
 	inst:AddComponent("sanityaura")
-	inst.components.sanityaura.aura = -TUNING.SANITY_TINY
+	inst.components.sanityaura.aura = -TUNING.SANITYAURA_TINY
 
 	--inst:AddComponent("finiteuses")
 	--inst.components.finiteuses:SetMaxUses(TUNING.TENT_USES)
