@@ -5,3 +5,8 @@
 *~
 *.swp
 *.swp
+*.autosave.scml
+/old-src/*
+/old-art/*
+/art-src/*
+/art/bak/*
