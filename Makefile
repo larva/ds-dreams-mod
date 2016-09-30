@@ -4,7 +4,7 @@ TEX=~/.games/dont_starve/mods/mod_tools/png
 ANIM=~/.games/dont_starve/mods/mod_tools/scml
 
 
-all: images/modicon.tex images/dreamsnatcher.tex images/minimap.tex anim/dreamsnatcher.zip
+all: images/modicon.tex images/dreamsnatcher.tex images/minimap.tex anim/dreamsnatcher.zip anim/dreams.zip
 	mv -f images/modicon.tex $(CURDIR)
 	mv -f images/modicon.xml $(CURDIR)
 

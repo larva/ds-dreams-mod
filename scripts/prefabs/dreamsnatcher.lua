@@ -172,7 +172,6 @@ end
 
 
 local function onfinished(inst)
-	-- TODO drop nightmare fuel
 	-- TODO make disappearance animation
 end
 
@@ -356,6 +355,11 @@ local function fn(Sim)
 	inst.components.sleeper:SetResistance(3)
 	inst:ListenForEvent("onwakeup", onwake)
 	inst:ListenForEvent("gotosleep", onsleep)
+
+	inst:AddComponent("lootdropper")
+	inst.DropLoot = function()
+		inst.components.lootdropper:SpawnLootPrefab("nightmarefuel")
+	end
 
 	inst:AddComponent("occupiable")
 	inst.components.occupanttype = "crow"

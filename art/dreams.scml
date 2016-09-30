@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="r9">
+    <folder id="0" name="dreams">
+        <file id="0" name="dreams/bubble_big.png" width="1024" height="1024" pivot_x="0" pivot_y="1"/>
+        <file id="1" name="dreams/bubble_med.png" width="1024" height="1024" pivot_x="0" pivot_y="1"/>
+        <file id="2" name="dreams/bubble_small.png" width="1024" height="1024" pivot_x="0" pivot_y="1"/>
+        <file id="3" name="dreams/fence.png" width="1024" height="1024" pivot_x="0" pivot_y="1"/>
+    </folder>
+    <entity id="0" name="dreams">
+        <obj_info name="dreams_bubble_big" realname="bubble_big" type="sprite">
+            <frames>
+                <i folder="0" file="0"/>
+            </frames>
+        </obj_info>
+        <obj_info name="dreams_bubble_med" realname="bubble_med" type="sprite">
+            <frames>
+                <i folder="0" file="1"/>
+            </frames>
+        </obj_info>
+        <obj_info name="dreams_bubble_small" realname="bubble_small" type="sprite">
+            <frames>
+                <i folder="0" file="2"/>
+            </frames>
+        </obj_info>
+        <obj_info name="dreams_fence" realname="fence" type="sprite">
+            <frames>
+                <i folder="0" file="3"/>
+            </frames>
+        </obj_info>
+        <obj_info name="dreams_bubble_big_breakup_01" realname="bubble_big_breakup_01" type="sprite">
+            <frames>
+                <i folder="0" file="0"/>
+            </frames>
+        </obj_info>
+        <obj_info name="dreams_bubble_big_breakup_02" realname="bubble_big_breakup_02" type="sprite">
+            <frames>
+                <i folder="0" file="0"/>
+            </frames>
+        </obj_info>
+        <obj_info name="dreams_bubble_big_breakup_03" realname="bubble_big_breakup_03" type="sprite">
+            <frames>
+                <i folder="0" file="0"/>
+            </frames>
+        </obj_info>
+        <animation id="0" name="start" length="1000" interval="100" looping="false">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="bubble_small" folder="0" file="2" abs_x="-0.0002" abs_y="1023.999889" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="0" timeline="2" key="0" z_index="0"/>
+                </key>
+                <key id="1" time="166">
+                    <object_ref id="0" timeline="1" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="2" key="0" z_index="1"/>
+                </key>
+                <key id="2" time="233">
+                    <object_ref id="0" timeline="1" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="2" key="1" z_index="1"/>
+                </key>
+                <key id="3" time="333">
+                    <object_ref id="0" timeline="1" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="2" key="1" z_index="1"/>
+                    <object_ref id="2" timeline="0" key="0" z_index="2"/>
+                </key>
+                <key id="4" time="466">
+                    <object_ref id="0" timeline="1" key="1" z_index="0"/>
+                    <object_ref id="1" timeline="2" key="1" z_index="1"/>
+                    <object_ref id="2" timeline="0" key="0" z_index="2"/>
+                </key>
+                <key id="5" time="500">
+                    <object_ref id="0" timeline="1" key="1" z_index="0"/>
+                    <object_ref id="1" timeline="2" key="1" z_index="1"/>
+                    <object_ref id="2" timeline="0" key="0" z_index="2"/>
+                    <object_ref id="3" timeline="3" key="0" z_index="3"/>
+                </key>
+                <key id="6" time="566">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="1" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="1" z_index="2"/>
+                    <object_ref id="3" timeline="3" key="0" z_index="3"/>
+                </key>
+                <key id="7" time="800">
+                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="2" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="2" z_index="2"/>
+                    <object_ref id="3" timeline="3" key="1" z_index="3"/>
+                </key>
+            </mainline>
+            <timeline id="0" obj="0" name="bubble_big">
+                <key id="0" time="333" spin="0">
+                    <object folder="0" file="0" x="163.085835" y="151.332606" pivot_x="0.159264" pivot_y="0.147786" angle="0" a="0.02239"/>
+                </key>
+                <key id="1" time="566" spin="0">
+                    <object folder="0" file="0" x="163.085835" y="151.332606" pivot_x="0.159264" pivot_y="0.147786" angle="0"/>
+                </key>
+                <key id="2" time="800" spin="0">
+                    <object folder="0" file="0" x="163.085835" y="151.332606" pivot_x="0.159264" pivot_y="0.147786" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" obj="1" name="bubble_med">
+                <key id="0" time="166" spin="0">
+                    <object folder="0" file="1" x="53.389039" y="82.772109" pivot_x="0.052138" pivot_y="0.080832" angle="0" a="0"/>
+                </key>
+                <key id="1" time="466" spin="0">
+                    <object folder="0" file="1" x="53.389039" y="82.772109" pivot_x="0.052138" pivot_y="0.080832" angle="0"/>
+                </key>
+                <key id="2" time="800" spin="0">
+                    <object folder="0" file="1" x="53.389039" y="82.772109" pivot_x="0.052138" pivot_y="0.080832" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="2" obj="2" name="bubble_small">
+                <key id="0" spin="0">
+                    <object folder="0" file="2" x="0.499512" y="45.553553" pivot_x="0.000488" pivot_y="0.044486" angle="0" a="0"/>
+                </key>
+                <key id="1" time="233" spin="0">
+                    <object folder="0" file="2" x="0.499512" y="45.553553" pivot_x="0.000488" pivot_y="0.044486" angle="0"/>
+                </key>
+                <key id="2" time="800" spin="0">
+                    <object folder="0" file="2" x="0.499512" y="45.553553" pivot_x="0.000488" pivot_y="0.044486" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="3" obj="3" name="fence">
+                <key id="0" time="500" spin="0">
+                    <object folder="0" file="3" x="268.864888" y="253.193917" pivot_x="0.262563" pivot_y="0.24726" angle="0" a="0"/>
+                </key>
+                <key id="1" time="800" spin="0">
+                    <object folder="0" file="3" x="268.864888" y="253.193917" pivot_x="0.262563" pivot_y="0.24726" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="pleasant" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="bubble_big" folder="0" file="0" abs_x="0" abs_y="1024" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" name="bubble_med" folder="0" file="1" abs_x="0" abs_y="1024" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" name="bubble_small" folder="0" file="2" abs_x="0" abs_y="1024" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="2" key="0" z_index="2"/>
+                    <object_ref id="3" name="fence" folder="0" file="3" abs_x="0" abs_y="1024" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="3" key="0" z_index="3"/>
+                </key>
+            </mainline>
+            <timeline id="0" obj="0" name="bubble_big">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" y="1024" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" obj="1" name="bubble_med">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" y="1024" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="2" obj="2" name="bubble_small">
+                <key id="0" spin="0">
+                    <object folder="0" file="2" y="1024" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="3" obj="3" name="fence">
+                <key id="0" spin="0">
+                    <object folder="0" file="3" y="1024" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="nightmare" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="bubble_big" folder="0" file="0" abs_x="0" abs_y="1024" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" name="bubble_med" folder="0" file="1" abs_x="0" abs_y="1024" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" name="bubble_small" folder="0" file="2" abs_x="0" abs_y="1024" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="2" key="0" z_index="2"/>
+                    <object_ref id="3" name="fence" folder="0" file="3" abs_x="0" abs_y="1024" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="3" key="0" z_index="3"/>
+                </key>
+            </mainline>
+            <timeline id="0" obj="0" name="bubble_big">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" y="1024" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" obj="1" name="bubble_med">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" y="1024" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="2" obj="2" name="bubble_small">
+                <key id="0" spin="0">
+                    <object folder="0" file="2" y="1024" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="3" obj="3" name="fence">
+                <key id="0" spin="0">
+                    <object folder="0" file="3" y="1024" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="3" name="base" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="bubble_big" folder="0" file="0" abs_x="0" abs_y="1024" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" name="bubble_med" folder="0" file="1" abs_x="0" abs_y="1024" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" name="bubble_small" folder="0" file="2" abs_x="0" abs_y="1024" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="2" key="0" z_index="2"/>
+                    <object_ref id="3" name="fence" folder="0" file="3" abs_x="0" abs_y="1024" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="3" key="0" z_index="3"/>
+                </key>
+            </mainline>
+            <timeline id="0" obj="0" name="bubble_big">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" y="1024" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" obj="1" name="bubble_med">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" y="1024" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="2" obj="2" name="bubble_small">
+                <key id="0" spin="0">
+                    <object folder="0" file="2" y="1024" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="3" obj="3" name="fence">
+                <key id="0" spin="0">
+                    <object folder="0" file="3" y="1024" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="4" name="end" length="1000" interval="100" looping="false">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="bubble_big" folder="0" file="0" abs_x="0.000049" abs_y="1023.999561" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" name="bubble_med" folder="0" file="1" abs_x="0.000441" abs_y="1023.99962" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" name="bubble_small" folder="0" file="2" abs_x="-0.000355" abs_y="1024.0001" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="2" key="0" z_index="2"/>
+                    <object_ref id="3" name="fence" folder="0" file="3" abs_x="-0.000032" abs_y="1024.00009" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="3" key="0" z_index="3"/>
+                    <object_ref id="4" name="bubble_big_breakup_01" folder="0" file="0" abs_x="66.159418" abs_y="622.029896" abs_angle="0" abs_scale_x="0.25" abs_scale_y="0.25" abs_a="0.23134" timeline="4" key="0" z_index="4"/>
+                    <object_ref id="5" name="bubble_big_breakup_02" folder="0" file="0" abs_x="222.396484" abs_y="245.874566" abs_angle="73.809653" abs_scale_x="0.3" abs_scale_y="0.33" abs_a="0.26866" timeline="5" key="0" z_index="5"/>
+                    <object_ref id="6" name="bubble_big_breakup_03" folder="0" file="0" abs_x="634.531413" abs_y="801.588353" abs_angle="0" abs_scale_x="0.2" abs_scale_y="0.2" abs_a="0.29104" timeline="6" key="0" z_index="6"/>
+                </key>
+                <key id="1" time="100">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="0" z_index="2"/>
+                    <object_ref id="3" timeline="3" key="1" z_index="3"/>
+                    <object_ref id="4" timeline="4" key="0" z_index="4"/>
+                    <object_ref id="5" timeline="5" key="0" z_index="5"/>
+                    <object_ref id="6" timeline="6" key="0" z_index="6"/>
+                </key>
+                <key id="2" time="200">
+                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="1" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="1" z_index="2"/>
+                    <object_ref id="3" timeline="3" key="2" z_index="3"/>
+                    <object_ref id="4" timeline="4" key="1" z_index="4"/>
+                    <object_ref id="5" timeline="5" key="1" z_index="5"/>
+                    <object_ref id="6" timeline="6" key="1" z_index="6"/>
+                </key>
+                <key id="3" time="300">
+                    <object_ref id="0" timeline="0" key="3" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="2" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="2" z_index="2"/>
+                    <object_ref id="3" timeline="3" key="3" z_index="3"/>
+                    <object_ref id="4" timeline="4" key="2" z_index="4"/>
+                    <object_ref id="5" timeline="5" key="2" z_index="5"/>
+                    <object_ref id="6" timeline="6" key="2" z_index="6"/>
+                </key>
+                <key id="4" time="1000">
+                    <object_ref id="0" timeline="0" key="4" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="3" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="3" z_index="2"/>
+                    <object_ref id="3" timeline="3" key="3" z_index="3"/>
+                    <object_ref id="4" timeline="4" key="3" z_index="4"/>
+                    <object_ref id="5" timeline="5" key="3" z_index="5"/>
+                    <object_ref id="6" timeline="6" key="3" z_index="6"/>
+                </key>
+            </mainline>
+            <timeline id="0" obj="0" name="bubble_big">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="531.353649" y="554.860105" pivot_x="0.5189" pivot_y="0.541856" angle="0"/>
+                </key>
+                <key id="1" time="100" spin="0">
+                    <object folder="0" file="0" x="531.353649" y="554.860105" pivot_x="0.5189" pivot_y="0.541856" angle="0"/>
+                </key>
+                <key id="2" time="200" spin="0">
+                    <object folder="0" file="0" x="531.353649" y="554.860105" pivot_x="0.5189" pivot_y="0.541856" angle="0"/>
+                </key>
+                <key id="3" time="300" spin="0">
+                    <object folder="0" file="0" x="531.353649" y="554.860105" pivot_x="0.5189" pivot_y="0.541856" angle="0" scale_x="0.6" scale_y="0.6"/>
+                </key>
+                <key id="4" time="1000" spin="0">
+                    <object folder="0" file="0" x="531.353649" y="554.860105" pivot_x="0.5189" pivot_y="0.541856" angle="0" scale_x="0.01" scale_y="0.01" a="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" obj="1" name="bubble_med">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" x="167.003577" y="157.20922" pivot_x="0.163089" pivot_y="0.153525" angle="0"/>
+                </key>
+                <key id="1" time="200" spin="0">
+                    <object folder="0" file="1" x="167.003577" y="157.20922" pivot_x="0.163089" pivot_y="0.153525" angle="0"/>
+                </key>
+                <key id="2" time="300" spin="0">
+                    <object folder="0" file="1" x="167.003577" y="157.20922" pivot_x="0.163089" pivot_y="0.153525" angle="0"/>
+                </key>
+                <key id="3" time="1000" spin="0">
+                    <object folder="0" file="1" x="167.003577" y="157.20922" pivot_x="0.163089" pivot_y="0.153525" angle="0" scale_x="0.01" scale_y="0.01" a="0"/>
+                </key>
+            </timeline>
+            <timeline id="2" obj="2" name="bubble_small">
+                <key id="0" spin="0">
+                    <object folder="0" file="2" x="57.306781" y="84.73098" pivot_x="0.055964" pivot_y="0.082745" angle="0"/>
+                </key>
+                <key id="1" time="200" spin="0">
+                    <object folder="0" file="2" x="57.306781" y="84.73098" pivot_x="0.055964" pivot_y="0.082745" angle="0"/>
+                </key>
+                <key id="2" time="300" spin="0">
+                    <object folder="0" file="2" x="57.306781" y="84.73098" pivot_x="0.055964" pivot_y="0.082745" angle="0"/>
+                </key>
+                <key id="3" time="1000" spin="0">
+                    <object folder="0" file="2" x="57.306781" y="84.73098" pivot_x="0.055964" pivot_y="0.082745" angle="0" scale_x="0.01" scale_y="0.01" a="0"/>
+                </key>
+            </timeline>
+            <timeline id="3" obj="3" name="fence">
+                <key id="0" spin="0">
+                    <object folder="0" file="3" x="535.271392" y="529.394778" pivot_x="0.522726" pivot_y="0.516987" angle="0"/>
+                </key>
+                <key id="1" time="100" spin="0">
+                    <object folder="0" file="3" x="535.271392" y="529.394778" pivot_x="0.522726" pivot_y="0.516987" angle="0" scale_x="0.75" scale_y="0.75"/>
+                </key>
+                <key id="2" time="200" spin="0">
+                    <object folder="0" file="3" x="535.271392" y="529.394778" pivot_x="0.522726" pivot_y="0.516987" angle="0" scale_x="0.333" scale_y="0.333"/>
+                </key>
+                <key id="3" time="300" spin="0">
+                    <object folder="0" file="3" x="535.271392" y="529.394778" pivot_x="0.522726" pivot_y="0.516987" angle="0" scale_x="0.013" scale_y="0.013" a="0"/>
+                </key>
+            </timeline>
+            <timeline id="4" obj="4" name="bubble_big_breakup_01">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="199.977274" y="503.88308" pivot_x="0.522726" pivot_y="0.538489" angle="0" scale_x="0.25" scale_y="0.25" a="0.23134"/>
+                </key>
+                <key id="1" time="200" spin="0">
+                    <object folder="0" file="0" x="199.977274" y="503.88308" pivot_x="0.522726" pivot_y="0.538489" angle="0" scale_x="0.25" scale_y="0.25" a="0.23134"/>
+                </key>
+                <key id="2" time="300" spin="0">
+                    <object folder="0" file="0" x="199.977274" y="503.88308" pivot_x="0.522726" pivot_y="0.538489" angle="0" scale_x="0.25" scale_y="0.25"/>
+                </key>
+                <key id="3" time="1000" spin="0">
+                    <object folder="0" file="0" x="199.977274" y="503.88308" pivot_x="0.522726" pivot_y="0.538489" angle="0" scale_x="0.001" scale_y="0.001" a="0"/>
+                </key>
+            </timeline>
+            <timeline id="5" obj="5" name="bubble_big_breakup_02">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="423.522403" y="354.895897" pivot_x="0.523364" pivot_y="0.518374" angle="73.809653" scale_x="0.3" scale_y="0.33" a="0.26866"/>
+                </key>
+                <key id="1" time="200" spin="0">
+                    <object folder="0" file="0" x="423.522403" y="354.895897" pivot_x="0.523364" pivot_y="0.518374" angle="73.809653" scale_x="0.3" scale_y="0.33" a="0.26866"/>
+                </key>
+                <key id="2" time="300" spin="0">
+                    <object folder="0" file="0" x="423.522403" y="354.895897" pivot_x="0.523364" pivot_y="0.518374" angle="73.809653" scale_x="0.3" scale_y="0.33"/>
+                </key>
+                <key id="3" time="1000" spin="0">
+                    <object folder="0" file="0" x="423.522403" y="354.895897" pivot_x="0.523364" pivot_y="0.518374" angle="73.809653" scale_x="0.001" scale_y="0.001" a="0"/>
+                </key>
+            </timeline>
+            <timeline id="6" obj="6" name="bubble_big_breakup_03">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="731.39956" y="694.142286" pivot_x="0.472989" pivot_y="0.475361" angle="0" scale_x="0.2" scale_y="0.2" a="0.29104"/>
+                </key>
+                <key id="1" time="200" spin="0">
+                    <object folder="0" file="0" x="731.39956" y="694.142286" pivot_x="0.472989" pivot_y="0.475361" angle="0" scale_x="0.2" scale_y="0.2" a="0.29104"/>
+                </key>
+                <key id="2" time="300" spin="0">
+                    <object folder="0" file="0" x="731.39956" y="694.142286" pivot_x="0.472989" pivot_y="0.475361" angle="0" scale_x="0.2" scale_y="0.2"/>
+                </key>
+                <key id="3" time="1000" spin="0">
+                    <object folder="0" file="0" x="731.39956" y="694.142286" pivot_x="0.472989" pivot_y="0.475361" angle="0" scale_x="0.001" scale_y="0.001" a="0"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+</spriter_data>
