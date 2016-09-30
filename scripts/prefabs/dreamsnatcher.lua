@@ -366,7 +366,6 @@ local function fn(Sim)
 	end
 
 	inst:AddComponent("occupiable")
-	inst.components.occupanttype = "crow"
 
 	inst:AddComponent("playerprox")
 	inst.components.playerprox:SetDist(5,6)
