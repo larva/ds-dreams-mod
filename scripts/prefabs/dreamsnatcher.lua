@@ -230,22 +230,17 @@ local function onsleep(inst)
 end
 
 local function onnear(inst)
-	--inst.SoundEmitter:PlaySound("dontstarve/rain/thunder_close", "rumble")
-	-- TODO get all entities with "character" tag and shake their camera?
-
-	--local lning = SpawnPrefab("common/lightning")
-	--lning.Transform:SetPosition(inst.Transform:GetWorldPosition())
-end
-
-local function affect_sanity(inst, observer)
-	if (inst:GetDistanceSqToInst(observer) < 122) then
-		return 0 -- TODO re-enable sanity loss: -TUNING.SANITY_TINY
-	end
-	return 0
+	inst.SoundEmitter:PlaySound("dontstarve/rain/thunder_close", "rumble")
+	-- TheCamera:Shake(shakeType, duration, speed, scale)
+	-- See components/quaker.lua
+	local duration = 100000000
+	local scale = 0.2
+	TheCamera:Shake("FULL", duration, 0.02, scale, 40)
 end
 
 local function onfar(inst)
-	--inst.SoundEmitter:KillSound("rumble")
+	inst.SoundEmitter:KillSound("rumble")
+	TheCamera:Shake("FULL", 0.01, 0, 0, 0)
 end
 
 local function ondescribe(inst, viewer)
@@ -370,7 +365,7 @@ local function fn(Sim)
 	inst.components.playerprox.onfar = onfar
 
 	inst:AddComponent("sanityaura")
-	inst.components.sanityaura.aurafn = affect_sanity
+	inst.components.sanityaura.aura = -TUNING.SANITY_TINY
 
 	--inst:AddComponent("finiteuses")
 	--inst.components.finiteuses:SetMaxUses(TUNING.TENT_USES)
