@@ -17,7 +17,7 @@ function Dreamer:StartDreaming()
 		self.dream = SpawnPrefab("dreaming/dream")
 		self.dream.dreamer = self.inst
 		self.inst:AddChild(self.dream)
-		self.dream.Transform:SetPosition(0.8, 2.15, 0.8)
+		self.dream.Transform:SetPosition(0.0, 1.15, 0.0)
 	end
 
 	if self.snatcher then
