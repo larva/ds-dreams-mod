@@ -365,6 +365,22 @@ local function fn(Sim)
 		inst.components.lootdropper:SpawnLootPrefab("nightmarefuel")
 	end
 
+	inst.attached_dreamers = {}
+	inst.Attach = function(dreamer)
+		attached_dreamers[dreamer] = dreamer
+		-- TODO start a dream tentacle + hand then move the below
+		--	to the portion where it reaches the dreamer
+		if dreamer.dream then
+			dreamer.dream:Disturb()
+		end
+	end
+
+	inst.Detach = function(dreamer)
+		attached_dreamers[dreamer] = nil
+		-- TODO cancel a dream tentacle + hand
+		inst:DropLoot()
+	end
+
 	inst:AddComponent("occupiable")
 
 	inst:AddComponent("playerprox")
