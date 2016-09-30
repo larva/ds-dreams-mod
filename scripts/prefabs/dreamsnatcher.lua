@@ -207,12 +207,14 @@ end
 
 local function onwake(inst)
 	inst.SoundEmitter:PlaySound("dontstarve/sanity/shadowhand_creep", "creeping")
+	inst.Light:Enable(true)
 	--inst.AnimState:PlayAnimation("active_idle", true)
 	find_or_spawn_raven(inst)
 end
 
 local function onsleep(inst)
 	inst.SoundEmitter:KillSound("creeping")
+	inst.Light:Enable(false)
 	if inst.components.occupiable:IsOccupied() then
 		-- HACK re-enable harvesting
 		inst:AddTag("occupied")
@@ -342,6 +344,13 @@ local function fn(Sim)
 	inst.components.inspectable:SetDescription(function(inspectme, viewer)
 		return ondescribe(inst, viewer)
 	end)
+
+	local light = inst.entity:AddLight()
+	light:Enable(false)
+	light:SetRadius(1.2)
+	light:SetFalloff(1)
+	light:SetIntensity(0.25)
+	light:SetColour(1.0, 1.0, 1.0)
 
 	inst:AddComponent("sleeper")
 	inst.components.sleeper.hibernate = false
