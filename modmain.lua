@@ -1,22 +1,8 @@
 ---
 --- http://dontstarve.wikia.com/wiki/Console/Commands
---- RunScript("consolecommands")
---- c_godmode()
---- c_spawn("magic/dreamsnatcher")
 ---
 GLOBAL.CHEATS_ENABLED = true
 GLOBAL.require( 'debugkeys' )
-
-local function c_give_camp()
-	c_godmode()
-	c_give("cutgrass", 20)
-	c_give("logs", 20)
-	c_give("rocks", 20)
-	c_give("twigs", 20)
-	c_give("flint", 20)
-	c_give("berries", 20)
-	c_give("common/inventory/tent")
-end
 
 local Ingredient = GLOBAL.Ingredient
 local RECIPETABS = GLOBAL.RECIPETABS
