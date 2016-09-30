@@ -26,7 +26,7 @@ PrefabFiles =  { "dreamsnatcher", "dream", }
 
 Assets = {
 	Asset("ATLAS", "images/minimap.xml"),
-	Asset("IMAGE", "images/minimap.tex"),
+	Asset("MINIMAP_IMAGE", "images/minimap.tex"),
 }
 AddMinimapAtlas("images/minimap.xml")
 
