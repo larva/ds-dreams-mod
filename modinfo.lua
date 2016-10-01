@@ -1,5 +1,5 @@
 -- http://dont-starve-modding.wikia.com/wiki/Modinfo.lua 
-version = "0.5"
+version = "0.6"
 name = "Dream Snatcher"
 description = "Harnessing the stuff of nightmares. Haunt the dreams of your friends for fun and profit!"
 author = "larva"
