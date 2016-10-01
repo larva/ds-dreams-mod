@@ -131,6 +131,12 @@ local assets = {
 	Asset("ANIM", "anim/dreamsnatcher.zip"),
 }
 
+if not GetWorld then
+	local function GetWorld()
+		return TheWorld
+	end
+end
+
 local function onnear(inst)
 	inst.SoundEmitter:PlaySound("dontstarve/rain/thunder_close", "rumble")
 	-- TheCamera:Shake(shakeType, duration, speed, scale)
@@ -377,7 +383,7 @@ local function fn(Sim)
 				-- TODO use light tweener?
 				inst.disable_light_fn = function(inst)
 					inst:RemoveEventCallback("animover", inst.disable_light_fn)
-					inst.Light:Enable(False)
+					inst.Light:Enable(false)
 				end
 				inst:ListenForEvent("animover", inst.disable_light_fn)
 			end
