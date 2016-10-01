@@ -207,14 +207,12 @@ end
 
 local function onwake(inst)
 	--inst.SoundEmitter:PlaySound("dontstarve/sanity/shadowhand_creep", "creeping")
-	inst.Light:Enable(true)
 	--inst.AnimState:PlayAnimation("active_idle", true)
 	find_or_spawn_raven(inst)
 end
 
 local function onsleep(inst)
 	--inst.SoundEmitter:KillSound("creeping")
-	inst.Light:Enable(false)
 	if inst.components.occupiable:IsOccupied() then
 		-- HACK re-enable harvesting
 		inst:AddTag("occupied")
@@ -404,6 +402,8 @@ local function fn(Sim)
 		inst.attached = inst.attached + 1
 		inst.snatcher_arms[dreamer].start = GetTime()
 		if inst.attached == 1 then
+			-- TODO use light tweener?
+			inst.Light:Enable(true)
 			-- First to attach so initiate snatching animation loop
 			--inst.AnimState:PlayAnimation("snatch_pre", false)
 			inst.AnimState:PushAnimation("snatch_pre", false)
@@ -524,6 +524,12 @@ local function fn(Sim)
 				-- Last one -- switch back to idle
 				inst.AnimState:PushAnimation("snatch_pst", false)
 				inst.AnimState:PushAnimation("idle", true)
+				-- TODO use light tweener?
+				inst.disable_light_fn = function(inst)
+					inst:RemoveEventCallback("animover", inst.disable_light_fn)
+					inst.Light:Enable(False)
+				end
+				inst:ListenForEvent("animover", inst.disable_light_fn)
 			end
 			inst.attached = inst.attached - 1
 		end
