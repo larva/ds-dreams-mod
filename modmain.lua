@@ -47,7 +47,7 @@ local dreamsnatcher = GLOBAL.Recipe("dreamsnatcher",
 dreamsnatcher.atlas = "images/dreamsnatcher.xml"
 
 local function MakeDreamer(sleepercmp, inst)
-	-- disable structural dreamers (dreamsnatcher, birdcage..)
+	-- disable structural sleeper/dreamers (dreamsnatcher, birdcage..)
 	if inst:HasTag("structure") then
 		return
 	end

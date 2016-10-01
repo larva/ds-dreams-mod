@@ -1,5 +1,3 @@
---GLOBAL.require "prefabutil"
-
 local ravings = {
 "Once upon a midnight dreary, while I pondered, weak and weary",
 "Over many a quaint and curious volume of forgotten lore",
@@ -129,105 +127,9 @@ local ravings = {
 "Shall be lifted -- nevermore!",
 }
 
-local raven_prefab = "forest/animals/crow"
-
--- Spawn loot consistent with the ravingss
-local raving_spawns = {
-[2] = { "common/book_sleep" },
-[9] = { "common/sparks", "common/inventory/heatrock", "common/monsters/ghost", },
-[11] = { "common/book_sleep", "compass", },
-[15] = { "silk", },
-[44] = { raven_prefab, },
-[46] = { "cane", },
-[47] = { "statueharp", },
-[51] = { "common/objects/gravestone", },
-[53] = { raven_prefab, },
-[55] = { raven_prefab, },
-[61] = { "statueharp", },
-[64] = { raven_prefab, },
-[66] = { "common/inventory/feather_crow", },
-[74] = { "panflute", },
-[79] = { raven_prefab, },
-[97] = { "compass", "mandrake" },
-[98] = { raven_prefab, },
-[105] = { raven_prefab, },
-[112] = { raven_prefab, },
-[116] = { "common/inventory/feather_crow", },
-[119] = { raven_prefab, },
-[121] = { raven_prefab, },
-[122] = { "statueharp", },
-}
-
 local assets = {
 	Asset("ANIM", "anim/dreamsnatcher.zip"),
-	--Asset("SOUND", "sound/foo.fsb"),
 }
-
-local function spawn_loot(inst, prefab)
-	local pos = Vector3(inst.Transform:GetWorldPosition())
-	local item = SpawnPrefab(prefab)
-	pos = pos + FindWalkableOffset(pos, 0, 1.5, 3, true) -- simutil.lua
-	item.Transform:SetPosition(pos:Get())
-end
-
-
-local function onfinished(inst)
-	-- TODO make disappearance animation
-end
-
-local function find_or_spawn_raven(inst)
-	local raven = nil
-
-	if inst.components.occupiable:IsOccupied() then
-		raven = inst.components.occupiable:GetOccupant()
-	end
-	if not raven then
-		raven = GetClosestInstWithTag("Edgar", inst, 5)
-		if not raven then
-			local pos = Vector3(inst.Transform:GetWorldPosition())
-			local spawnpt = pos + FindWalkableOffset(pos, 0, 1.5, 3, true)
-			spawnpt.y = 15
-			raven = SpawnPrefab(raven_prefab)
-			raven:AddTag("Edgar")
-			raven.Physics:Teleport(spawnpt:Get())
-		end
-		raven:AddTag("busy")
-		--raven:AddStateTag("busy")
-		raven.components.sleeper:SetNocturnal(true)
-		raven.components.health:SetInvincible(true)
-		inst.components.occupiable:Occupy(raven)
-		inst.antagonist = raven
-
-		-- HACK disable harvesting
-		inst:RemoveTag("occupied")
-	end
-
-	return raven
-end
-
-local function onwake(inst)
-	--inst.SoundEmitter:PlaySound("dontstarve/sanity/shadowhand_creep", "creeping")
-	--inst.AnimState:PlayAnimation("active_idle", true)
-	find_or_spawn_raven(inst)
-end
-
-local function onsleep(inst)
-	--inst.SoundEmitter:KillSound("creeping")
-	if inst.components.occupiable:IsOccupied() then
-		-- HACK re-enable harvesting
-		inst:AddTag("occupied")
-		local raven = inst.components.occupiable:Harvest()
-
-		if raven then
-			raven.components.sleeper:SetNocturnal(false)
-			raven:RemoveTag("busy")
-			--raven:RemoveStateTag("busy")
-			raven.sg:GoToState("flyaway")
-		end
-
-	end
-	--inst.AnimState:PlayAnimation("idle", true)
-end
 
 local function onnear(inst)
 	inst.SoundEmitter:PlaySound("dontstarve/rain/thunder_close", "rumble")
@@ -252,47 +154,11 @@ local function ondescribe(inst, viewer)
 		return "I can see the Night\'s Plutonian shore!"
 	end
 
-	local raven = nil
-	local raven_sound = nil
-	local raven_anim = nil
 	local quoth = ravings[inst.line]
-	local spawn = raving_spawns[inst.line]
-
 	inst.line = (inst.line + 1) % #ravings
 	if not quoth then
 		return "Odd, I was expecting something fantastic"
 	end
-
-	if string.find(quoth, "Nevermore") then
-		raven_sound = "dontstarve/birds/chirp_crow"
-		raven_anim = "caw"
-	elseif string.find(quoth, "flutter") or string.find(quoth, "flitting") then
-		raven_sound = "dontstarve/birds/flyin"
-		raven_anim = "flap"
-	end
-
-	if spawn then
-		spawn = GetRandomItem(spawn)
-	end
-
-	if raven_sound or raven_anim or (spawn == raven_prefab) then
-		raven = find_or_spawn_raven(inst)
-		if spawn == raven_prefab then
-			spawn = nil
-		end
-	end
-	if raven and raven_sound then
-		raven.SoundEmitter:PlaySound(raven_sound, "quoth")
-	end
-	if raven and raven_anim then
-		raven.AnimState:PlayAnimation(raven_anim)
-	end
-
-	if not spawn then
-		return quoth
-	end
-	spawn_loot(inst, spawn)
-
 	return quoth
 end
 
@@ -305,11 +171,7 @@ local function onload(inst, data)
 	if data and data.insanity then
 		inst.insanity = data.insanity
 	end
-	if GetClock():IsDay() then
-		inst.AnimState:PlayAnimation("idle", true)
-	elseif GetClock():IsDusk() or GetClock():IsNight() then
-		--- TODO onwake(inst) ??
-	end
+	inst.AnimState:PlayAnimation("idle", true)
 end
 
 local function onsave(inst, data)
@@ -323,10 +185,6 @@ end
 local function fn(Sim)
 	local inst = CreateEntity()
 	inst.entity:AddTransform()
-
-	local shadow = inst.entity:AddDynamicShadow()
-	shadow:SetSize(1, .5)
-	shadow:Enable(true)
 
 	local anim = inst.entity:AddAnimState()
 	anim:SetBank("dreamsnatcher") -- Entity Name in Spriter (top level)
@@ -356,14 +214,6 @@ local function fn(Sim)
 	light:SetFalloff(1)
 	light:SetIntensity(0.25)
 	light:SetColour(1.0, 1.0, 1.0)
-
-	inst:AddComponent("sleeper")
-	inst.components.sleeper.hibernate = false
-	inst.components.sleeper:SetNocturnal(true)
-	inst.components.sleeper:SetDefaultTests()
-	inst.components.sleeper:SetResistance(3)
-	inst:ListenForEvent("onwakeup", onwake)
-	inst:ListenForEvent("gotosleep", onsleep)
 
 	inst:AddComponent("lootdropper")
 	inst.insanity = 0
@@ -551,8 +401,6 @@ local function fn(Sim)
 		inst:CollectSanity(dreamer, duration)
 	end
 
-	inst:AddComponent("occupiable")
-
 	inst:AddComponent("playerprox")
 	inst.components.playerprox:SetDist(5,6)
 	inst.components.playerprox.onnear = onnear
@@ -560,11 +408,6 @@ local function fn(Sim)
 
 	inst:AddComponent("sanityaura")
 	inst.components.sanityaura.aura = -TUNING.SANITYAURA_TINY
-
-	--inst:AddComponent("finiteuses")
-	--inst.components.finiteuses:SetMaxUses(TUNING.TENT_USES)
-	--inst.components.finiteuses:SetUses(TUNING.TENT_USES)
-	--inst.components.finiteuses:SetOnFinished(onfinished)
 
 	inst.OnLoad = onload
 	inst.OnSave = onsave
