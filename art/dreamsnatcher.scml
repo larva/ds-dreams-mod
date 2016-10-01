@@ -24,6 +24,21 @@
                 <i folder="0" file="0"/>
             </frames>
         </obj_info>
+        <obj_info name="dreamsnatcher_stars" realname="stars" type="sprite">
+            <frames>
+                <i folder="0" file="2"/>
+            </frames>
+        </obj_info>
+        <obj_info name="dreamsnatcher_void" realname="void" type="sprite">
+            <frames>
+                <i folder="0" file="1"/>
+            </frames>
+        </obj_info>
+        <obj_info name="dreamsnatcher_spiral" realname="spiral" type="sprite">
+            <frames>
+                <i folder="0" file="4"/>
+            </frames>
+        </obj_info>
         <animation id="0" name="idle" length="4000" interval="100">
             <mainline>
                 <key id="0">
@@ -73,7 +88,222 @@
                 </key>
             </timeline>
         </animation>
-        <animation id="1" name="base" length="4000" interval="100">
+        <animation id="1" name="snatch_pre" length="4000" interval="100" looping="false">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="stand" folder="0" file="3" abs_x="-265" abs_y="864" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" name="rim" folder="0" file="5" abs_x="-262" abs_y="786" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" name="web" folder="0" file="0" abs_x="-262" abs_y="786" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="2" key="0" z_index="2"/>
+                    <object_ref id="3" name="void" folder="0" file="1" abs_x="-261.208333" abs_y="785.416667" abs_angle="360" abs_scale_x="1" abs_scale_y="1" abs_a="0" timeline="4" key="0" z_index="3"/>
+                    <object_ref id="4" name="spiral" folder="0" file="4" abs_x="-257.488081" abs_y="786.802806" abs_angle="0.1" abs_scale_x="1" abs_scale_y="1" abs_a="0" timeline="5" key="0" z_index="4"/>
+                    <object_ref id="5" name="stars" folder="0" file="2" abs_x="-263.291667" abs_y="794.791667" abs_angle="360" abs_scale_x="1" abs_scale_y="1" abs_a="0" timeline="3" key="0" z_index="5"/>
+                </key>
+                <key id="1" time="2000">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="0" z_index="2"/>
+                    <object_ref id="3" timeline="4" key="0" z_index="3"/>
+                    <object_ref id="4" timeline="5" key="1" z_index="4"/>
+                    <object_ref id="5" timeline="3" key="0" z_index="5"/>
+                </key>
+                <key id="2" time="4000">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="1" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="1" z_index="2"/>
+                    <object_ref id="3" timeline="4" key="1" z_index="3"/>
+                    <object_ref id="4" timeline="5" key="2" z_index="4"/>
+                    <object_ref id="5" timeline="3" key="1" z_index="5"/>
+                </key>
+            </mainline>
+            <timeline id="0" obj="0" name="stand">
+                <key id="0" spin="0">
+                    <object folder="0" file="3" x="-9" y="-160" angle="0"/>
+                </key>
+                <key id="1" time="4000" spin="0">
+                    <object folder="0" file="3" x="-9" y="-160" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" obj="1" name="rim">
+                <key id="0" spin="0">
+                    <object folder="0" file="5" x="-6" y="786" angle="0"/>
+                </key>
+                <key id="1" time="4000" spin="0">
+                    <object folder="0" file="5" x="-6" y="786" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="2" obj="2" name="web">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="-6" y="786" angle="0"/>
+                </key>
+                <key id="1" time="4000" spin="0">
+                    <object folder="0" file="0" x="-6" y="786" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="3" obj="3" name="stars">
+                <key id="0" spin="0">
+                    <object folder="0" file="2" x="-7.291667" y="794.791667" a="0"/>
+                </key>
+                <key id="1" time="4000" spin="0">
+                    <object folder="0" file="2" x="-7.291667" y="794.791667"/>
+                </key>
+            </timeline>
+            <timeline id="4" obj="4" name="void">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" x="-5.208333" y="785.416667" a="0"/>
+                </key>
+                <key id="1" time="4000" spin="0">
+                    <object folder="0" file="1" x="-5.208333" y="785.416667"/>
+                </key>
+            </timeline>
+            <timeline id="5" obj="5" name="spiral">
+                <key id="0">
+                    <object folder="0" file="4" x="-1.041667" y="531.25" angle="0.1" a="0"/>
+                </key>
+                <key id="1" time="2000">
+                    <object folder="0" file="4" x="-1.041667" y="531.25" angle="180" a="0.70149"/>
+                </key>
+                <key id="2" time="4000">
+                    <object folder="0" file="4" x="-1.041667" y="531.25" angle="359.999" a="0.50746"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="snatch" length="4000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="stand" folder="0" file="3" abs_x="-265" abs_y="864" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" name="void" folder="0" file="1" abs_x="-261.208333" abs_y="785.416667" abs_angle="360" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="2" key="0" z_index="1"/>
+                    <object_ref id="2" name="spiral" folder="0" file="4" abs_x="-257.488081" abs_y="786.802806" abs_angle="0.1" abs_scale_x="1" abs_scale_y="1" abs_a="0.60448" timeline="3" key="0" z_index="2"/>
+                    <object_ref id="3" name="stars" folder="0" file="2" abs_x="-263.291667" abs_y="794.791667" abs_angle="360" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="1" key="0" z_index="3"/>
+                </key>
+                <key id="1" time="2000">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="2" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="3" key="1" z_index="2"/>
+                    <object_ref id="3" timeline="1" key="0" z_index="3"/>
+                </key>
+                <key id="2" time="4000">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                    <object_ref id="1" timeline="2" key="1" z_index="1"/>
+                    <object_ref id="2" timeline="3" key="2" z_index="2"/>
+                    <object_ref id="3" timeline="1" key="1" z_index="3"/>
+                </key>
+            </mainline>
+            <timeline id="0" obj="0" name="stand">
+                <key id="0" spin="0">
+                    <object folder="0" file="3" x="-9" y="-160" angle="0"/>
+                </key>
+                <key id="1" time="4000" spin="0">
+                    <object folder="0" file="3" x="-9" y="-160" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" obj="3" name="stars">
+                <key id="0" spin="0">
+                    <object folder="0" file="2" x="-7.291667" y="794.791667"/>
+                </key>
+                <key id="1" time="4000" spin="0">
+                    <object folder="0" file="2" x="-7.291667" y="794.791667"/>
+                </key>
+            </timeline>
+            <timeline id="2" obj="4" name="void">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" x="-5.208333" y="785.416667"/>
+                </key>
+                <key id="1" time="4000" spin="0">
+                    <object folder="0" file="1" x="-5.208333" y="785.416667"/>
+                </key>
+            </timeline>
+            <timeline id="3" obj="5" name="spiral">
+                <key id="0">
+                    <object folder="0" file="4" x="-1.041667" y="531.25" angle="0.1" a="0.60448"/>
+                </key>
+                <key id="1" time="2000">
+                    <object folder="0" file="4" x="-1.041667" y="531.25" angle="180" a="0.70149"/>
+                </key>
+                <key id="2" time="4000">
+                    <object folder="0" file="4" x="-1.041667" y="531.25" angle="359.999" a="0.50746"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="3" name="snatch_pst" length="4000" interval="100" looping="false">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="stand" folder="0" file="3" abs_x="-265" abs_y="864" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" name="rim" folder="0" file="5" abs_x="-262" abs_y="786" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" name="web" folder="0" file="0" abs_x="-262" abs_y="786" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="2" key="0" z_index="2"/>
+                    <object_ref id="3" name="void" folder="0" file="1" abs_x="-261.208333" abs_y="785.416667" abs_angle="360" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="4" key="0" z_index="3"/>
+                    <object_ref id="4" name="spiral" folder="0" file="4" abs_x="-257.037199" abs_y="787.254468" abs_angle="359.999" abs_scale_x="1" abs_scale_y="1" abs_a="0.50746" timeline="5" key="0" z_index="4"/>
+                    <object_ref id="5" name="stars" folder="0" file="2" abs_x="-263.291667" abs_y="794.791667" abs_angle="360" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="3" key="0" z_index="5"/>
+                </key>
+                <key id="1" time="2000">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="0" z_index="2"/>
+                    <object_ref id="3" timeline="4" key="0" z_index="3"/>
+                    <object_ref id="4" timeline="5" key="1" z_index="4"/>
+                    <object_ref id="5" timeline="3" key="0" z_index="5"/>
+                </key>
+                <key id="2" time="4000">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="1" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="1" z_index="2"/>
+                    <object_ref id="3" timeline="4" key="1" z_index="3"/>
+                    <object_ref id="4" timeline="5" key="2" z_index="4"/>
+                    <object_ref id="5" timeline="3" key="1" z_index="5"/>
+                </key>
+            </mainline>
+            <timeline id="0" obj="0" name="stand">
+                <key id="0" spin="0">
+                    <object folder="0" file="3" x="-9" y="-160" angle="0"/>
+                </key>
+                <key id="1" time="4000" spin="0">
+                    <object folder="0" file="3" x="-9" y="-160" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" obj="1" name="rim">
+                <key id="0" spin="0">
+                    <object folder="0" file="5" x="-6" y="786" angle="0"/>
+                </key>
+                <key id="1" time="4000" spin="0">
+                    <object folder="0" file="5" x="-6" y="786" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="2" obj="2" name="web">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="-6" y="786" angle="0"/>
+                </key>
+                <key id="1" time="4000" spin="0">
+                    <object folder="0" file="0" x="-6" y="786" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="3" obj="3" name="stars">
+                <key id="0" spin="0">
+                    <object folder="0" file="2" x="-7.291667" y="794.791667"/>
+                </key>
+                <key id="1" time="4000" spin="0">
+                    <object folder="0" file="2" x="-7.291667" y="794.791667" a="0"/>
+                </key>
+            </timeline>
+            <timeline id="4" obj="4" name="void">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" x="-5.208333" y="785.416667"/>
+                </key>
+                <key id="1" time="4000" spin="0">
+                    <object folder="0" file="1" x="-5.208333" y="785.416667" a="0"/>
+                </key>
+            </timeline>
+            <timeline id="5" obj="5" name="spiral">
+                <key id="0" spin="-1">
+                    <object folder="0" file="4" x="-1.041667" y="531.25" angle="359.999" a="0.50746"/>
+                </key>
+                <key id="1" time="2000" spin="-1">
+                    <object folder="0" file="4" x="-1.041667" y="531.25" angle="180" a="0.70149"/>
+                </key>
+                <key id="2" time="4000" spin="-1">
+                    <object folder="0" file="4" x="-1.041667" y="531.25" angle="0.1" a="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="4" name="base" length="4000" interval="100">
             <mainline>
                 <key id="0">
                     <object_ref id="0" name="stand" folder="0" file="3" abs_x="-265" abs_y="864" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>

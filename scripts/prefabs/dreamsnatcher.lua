@@ -398,12 +398,20 @@ local function fn(Sim)
 		end
 	end
 
-	inst.attached_dreamers = {}
+	inst.snatcher_arms = {}
+	inst.attached = 0
 	inst:ListenForEvent("onattachdreamer", function(inst, dreamer)
+		inst.attached = inst.attached + 1
+		inst.snatcher_arms[dreamer].start = GetTime()
+		if inst.attached == 1 then
+			-- First to attach so initiate snatching animation loop
+			--inst.AnimState:PlayAnimation("snatch_pre", false)
+			inst.AnimState:PushAnimation("snatch_pre", false)
+			inst.AnimState:PushAnimation("snatch", true)
+		end
 		local dream = dreamer.components.dreamer.dream
 		if dream then
 			dream:Disturb()
-			inst.attached_dreamers[dreamer].start = GetTime()
 		end
 		if dreamer.components.sanity then
 			dreamer.sanitysuckfn = function(event)
@@ -436,7 +444,7 @@ local function fn(Sim)
 		if not dreamer then
 			return
 		end
-		if inst.attached_dreamers[dreamer] then
+		if inst.snatcher_arms[dreamer] then
 			return
 		end
 		local hand = SpawnPrefab("shadowhand")--"dreaming/dream_hand")
@@ -480,6 +488,7 @@ local function fn(Sim)
 			hand.components.locomotor.walkspeed = 2
 			hand.components.locomotor:SetReachDestinationCallback(function(h)
 				assert(h == hand)
+				hand.AnimState:PlayAnimation("grab")
 				hand.SoundEmitter:KillAllSounds()
 				snatcher:PushEvent("onattachdreamer", dreamer)
 			end)
@@ -498,7 +507,7 @@ local function fn(Sim)
 			end)
 			hand.components.locomotor:GoToEntity(hand.arm, nil, false)
 		end
-		inst.attached_dreamers[dreamer] = { ["hand"] = hand, ["start"] = nil }
+		inst.snatcher_arms[dreamer] = { ["hand"] = hand, ["start"] = nil }
 		hand:SeekDreamer(inst, dreamer)
 	end
 
@@ -506,9 +515,17 @@ local function fn(Sim)
 		if not dreamer then
 			return
 		end
-		local tuple = inst.attached_dreamers[dreamer]
+		local tuple = inst.snatcher_arms[dreamer]
 		if not tuple then
 			return
+		end
+		if tuple.start then -- else it never attached
+			if inst.attached == 1 then
+				-- Last one -- switch back to idle
+				inst.AnimState:PushAnimation("snatch_pst", false)
+				inst.AnimState:PushAnimation("idle", true)
+			end
+			inst.attached = inst.attached - 1
 		end
 		local hand = tuple.hand
 		if not hand then
@@ -520,7 +537,7 @@ local function fn(Sim)
 		else
 			duration = GetTime() - tuple.start
 		end
-		inst.attached_dreamers[dreamer] = nil
+		inst.snatcher_arms[dreamer] = nil
 		-- TODO could *almost* trigger "startaction" and avoid
 		--      writing our own Retract function.
 		hand:ClearBufferedAction()
