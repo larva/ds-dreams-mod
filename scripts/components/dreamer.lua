@@ -36,12 +36,13 @@ end
 function Dreamer:StopDreaming()
 	if self.dream then
 		self.dream:Over()
+		self.dream = nil
 	end
+
 	if self.snatcher then
 		self.snatcher:Detach(self.inst)
+		self.snatcher = nil
 	end
-	self.dream = nil
-	self.snatcher = nil
 end
 
 return Dreamer
