@@ -38,15 +38,57 @@ Assets = {
 }
 AddMinimapAtlas("images/minimap.xml")
 
-local dreamsnatcher = GLOBAL.Recipe("dreamsnatcher",
-	{Ingredient("goldnugget", 3),
-	 Ingredient("silk",  3),
-	 Ingredient("twigs", 6),
-	 Ingredient("feathers", 2)},
-	RECIPETABS.MAGIC, TECH.MAGIC_TWO) --, "dreamsnatcher_placer")
-dreamsnatcher.atlas = "images/dreamsnatcher.xml"
+local WrapAddRecipe = nil
+if AddRecipe ~= nil then
+	WrapAddRecipe = AddRecipe
+else
+	-- Wrap Recipe constructor. Match AddRecipe() from DST (api version 10)
+	WrapAddRecipe = function(name, ingredients, tab, level, placer, min_spacing, nounlock, numtogive, builder_tag, atlas, image, testfn, ...)
+		if testfn and not placer then
+			return ElChupacabra -- TODO shim is incomplete
+		end
+		-- Important: mods should not use Recipe() directly in DST
+		local result = GLOBAL.Recipe(name, ingredients, tab, level,
+						placer, min_spacing, nounlock,
+						numtogive, builder_tag, atlas,
+						image, testfn, ...)
+		if not result then
+			return result
+		end
+		if atlas then
+			result.atlas = atlas
+		end
+		if builder_tag then
+			result.builder_tag = builder_tag
+		end
+		if image then
+			result.image = image
+		end
+		if testfn and placer then
+			placer.testfn = testfn
+		end
+		return result
+	end
+end
+
+WrapAddRecipe("dreamsnatcher", {
+		Ingredient("goldnugget", 3),
+		Ingredient("silk",  6),
+		Ingredient("twigs", 6),
+		Ingredient("feathers", 2)
+	},
+	RECIPETABS.MAGIC, TECH.MAGIC_TWO,
+	nil,
+	nil,
+	false,
+	1,
+	nil,
+	"images/dreamsnatcher.xml", "images/dreamsnatcher.tex",
+	nil)
 
 local function MakeDreamer(sleepercmp, inst)
+	inst:AddTag("sleeper") -- DST compat
+
 	-- disable structural sleeper/dreamers (dreamsnatcher, birdcage..)
 	if inst:HasTag("structure") then
 		return

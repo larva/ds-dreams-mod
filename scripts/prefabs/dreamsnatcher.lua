@@ -131,32 +131,80 @@ local assets = {
 	Asset("ANIM", "anim/dreamsnatcher.zip"),
 }
 
-if not GetWorld then
-	local function GetWorld()
+IsDST =  _G.kleifileexists("scripts/networking.lua") and true or false
+local IsDST = IsDST
+
+if IsDST then
+	local GetWorld = function()
 		return TheWorld
 	end
 end
 
-local function onnear(inst)
+local function GetPhase()
+	if IsDST then
+		if TheWorld.state.isday then
+			return 0
+		elseif TheWorld.state.isnight then
+			return 2
+		else
+			return 1
+		end
+	else
+		if GetClock():IsDay() then
+			return 0
+		elseif GetClock():IsDusk() then
+			return 1
+		else
+			return 2
+		end
+	end
+end
+
+local function onnear(inst, player)
+
 	inst.SoundEmitter:PlaySound("dontstarve/rain/thunder_close", "rumble")
+
 	-- TheCamera:Shake(shakeType, duration, speed, scale)
 	-- See components/quaker.lua -- TODO no idea what "40" is!
-	local duration = 100000000
+	local duration = 100000000 -- such a long time is sort of like forever
 	local intensity = math.min(100.0, inst.insanity)/100.0
 	local scale = 0.2*intensity
 	local speed = 0.02*intensity
-	TheCamera:Shake("FULL", duration, speed, scale, 40)
+	if IsDST then
+		-- NOTE: player is non-nil in DST ONLY!
+		player:ScreenFlash(intensity)
+		-- See: ShakeAllCameras() in simutil.lua
+		player:ShakeCamera(CAMERASHAKE.FULL, duration, speed, scale, inst, 40)
+		inst.shakees[player] = player
+	else
+		inst:DoTaskInTime(0, function()
+			GetClock():DoLightningLighting(intensity)
+		end)
+		TheCamera:Shake("FULL", duration, speed, scale, 40)
+	end
 end
 
 local function onfar(inst)
+	-- NOTE: player is non-nil in DST ONLY!
 	inst.SoundEmitter:KillSound("rumble")
-	TheCamera:Shake("FULL", 0.01, 0, 0, 0)
+	if IsDST then
+		-- No more players are nearby
+		for k,v in pairs(inst.shakees) do
+			if v ~= nil then
+				v:ShakeCamera(CAMERASHAKE.FULL, 0, 0, 0, 0, nil, 0)
+			end
+		end
+		inst.shakees = {}
+	else
+		TheCamera:Shake("FULL", 0.01, 0, 0, 0)
+	end
 end
 
 local function ondescribe(inst, viewer)
-	if GetClock():IsDay() then
+	local phase = GetPhase()
+	if phase == 0 then
 		return "I find myself doubting, dreaming dreams no mortal ever dared to dream before."
-	elseif GetClock():IsDusk() then
+	elseif phase == 1 then
 		return "I can see the Night\'s Plutonian shore!"
 	end
 
@@ -191,39 +239,249 @@ end
 local function fn(Sim)
 	local inst = CreateEntity()
 	inst.entity:AddTransform()
-
 	local anim = inst.entity:AddAnimState()
+	inst.entity:AddSoundEmitter()
+	MakeObstaclePhysics(inst, radius)
+	local minimap = inst.entity:AddMiniMapEntity()
+	local light = inst.entity:AddLight()
+	if IsDST then
+		inst.entity:AddNetwork()
+	end
+
 	anim:SetBank("dreamsnatcher") -- Entity Name in Spriter (top level)
 	anim:SetBuild("dreamsnatcher") -- File name (e.g. "filename.zip")
 	anim:PlayAnimation("idle", true) -- Animation in Spriter (bottom level)
-
-	inst.entity:AddSoundEmitter()
-
-	MakeObstaclePhysics(inst, radius)
-
-	local minimap = inst.entity:AddMiniMapEntity()
+	--anim:SetMultColour(1, 1, 1, 1.0)
 	minimap:SetIcon("minimap.tex")
 	minimap:SetPriority(1)
 
 	inst:AddTag("structure")
 	inst:AddTag("dreamsnatcher")
 
-	inst.line = 1
-	inst:AddComponent("inspectable")
-	inst.components.inspectable:SetDescription(function(inspectme, viewer)
-		return ondescribe(inst, viewer)
-	end)
-
-	local light = inst.entity:AddLight()
 	light:Enable(false)
 	light:SetRadius(1.2)
 	light:SetFalloff(1)
 	light:SetIntensity(0.25)
 	light:SetColour(1.0, 1.0, 1.0)
 
+	if IsDST then
+		MakeSnowCoveredPristine(inst)
+	end
+
+	--
+	-- Snatcher arms operate independently on client and server;
+	-- there is no need to keep them in sync. However we only
+	-- accumulate insanity and spawn loot on the server.
+	--
+	inst.snatcher_arms = {}
+	inst.attached = 0
+	inst:ListenForEvent("onattachdreamer", function(inst, dreamer)
+		inst.attached = inst.attached + 1
+		inst.snatcher_arms[dreamer].start = GetTime()
+		if inst.attached == 1 then
+			-- TODO use light tweener?
+			inst.Light:Enable(true)
+			-- First to attach so initiate snatching animation loop
+			--inst.AnimState:PlayAnimation("snatch_pre", false)
+			inst.AnimState:PushAnimation("snatch_pre", false)
+			inst.AnimState:PushAnimation("snatch", true)
+		end
+		local dream = dreamer.components.dreamer.dream
+		if dream then
+			dream:Disturb()
+		end
+		if IsDST and not TheWorld.ismastersim then
+			return
+		end
+		if not dreamer.components.sanity then
+			return
+		end
+		dreamer.sanitysuckfn = function(event)
+			-- All sanity lost accumulates towards
+			-- spawning nightmarefuel
+			local delta = event.oldpercent - event.newpercent
+			-- BUT Sleepers with positive sanity gain wipe
+			--     out any accumulation.
+			if delta < 0 then
+				inst.insanity = 0
+				return
+			end
+			inst.insanity = inst.insanity + delta
+		end
+		dreamer.sanefn = function(event)
+			-- Sleepers that go sane wipe out accumulation
+			inst.insanity = 0
+		end
+		dreamer.insanefn = function(event)
+			-- Sleepers that go insane boost nightmare 
+			-- production alot!
+			inst.insanity = inst.insanity + 100
+		end
+		inst:ListenForEvent("sanitydelta", dreamer.sanitysuckfn)
+		inst:ListenForEvent("gosane", dreamer.sanefn)
+		inst:ListenForEvent("goinsane", dreamer.insanefn)
+	end)
+	inst.Attach = function(inst, dreamer)
+		if not dreamer then
+			return
+		end
+		if inst.snatcher_arms[dreamer] then
+			return
+		end
+		local hand = SpawnPrefab("shadowhand")--"dreaming/dream_hand")
+		hand:AddTag("notarget")
+		hand:AddTag("notraptrigger")
+		hand.persists = false
+		RemovePhysicsColliders(hand)
+		hand.Physics:SetCollisionGroup(COLLISION.SANITY)
+		hand.Physics:CollidesWith(COLLISION.SANITY)
+		--hand.Physics:CollidesWith(COLLISION.WORLD)
+		hand.Physics:SetMass(10) -- Needs nonzero mass otherwise it never moves!
+		hand.arm = nil
+
+		-- Critical HACKS
+		-- Removing player proximity ensures the shadowhand never
+		-- starts searching for a fire.
+		if hand.components.playerprox then
+			hand:RemoveComponent("playerprox")
+		end
+		-- Removing the daytime callback ensures the hand works for
+		-- nocturnal dreamers too.
+		if IsDST then
+			-- TODO test night -> day transition to make sure this
+			--	isn't buggy! Might not be moddable: need a ref
+			--	to the shadowhand Dissipate function but instead
+			--	hand.dissipatefn might be nil *and* it contains
+			--	a wrapper function rather than a ref to the func
+			--	we need! This will be fixed once we implement a
+			--	custom hand/arm animation for the deamsnatcher.
+			hand:StopWatchingWorldState("daytime", nil)
+		else
+			hand:RemoveEventCallback("daytime", hand.dissipatefn, GetWorld())
+		end
+
+		-- Removing this prevents the shadow arm and hand from being
+		-- saved and thus ensures that the above hacks are always
+		-- applied.
+		if hand.components.knownlocations then
+			hand:RemoveComponent("knownlocations")
+		end
+
+		hand.Transform:SetPosition(inst.Transform:GetWorldPosition())
+
+		-- Tune sanity loss to account for extended contact
+		if hand.components.sanityaura then
+			hand.components.sanityaura.aura = -TUNING.SANITYAURA_TINY
+		end
+
+		hand.SeekDreamer = function(hand, snatcher, dreamer)
+			hand:ClearBufferedAction()
+			hand.components.locomotor:Clear()
+			hand.arm = SpawnPrefab("shadowhand_arm")
+			hand.arm.persists = false
+			hand.arm:AddTag("notarget")
+			hand.arm:AddTag("notraptrigger")
+			hand.arm.Transform:SetPosition(hand.Transform:GetWorldPosition())
+			hand.arm:FacePoint(Vector3(dreamer.Transform:GetWorldPosition()))
+			hand.arm.components.stretcher:SetStretchTarget(hand)
+			hand.components.locomotor.walkspeed = 2
+			hand.components.locomotor:SetReachDestinationCallback(function(hand)
+				hand.components.locomotor:SetReachDestinationCallback(nil)
+				hand.AnimState:PlayAnimation("grab")
+				hand.SoundEmitter:KillAllSounds()
+				snatcher:PushEvent("onattachdreamer", dreamer)
+			end)
+			hand.components.locomotor:GoToEntity(dreamer, nil, false)
+		end
+		hand.Retract = function(hand)
+			hand.components.locomotor:Clear()
+			hand.components.locomotor.walkspeed = 10 
+			hand.AnimState:PlayAnimation("grab_pst")
+			hand.SoundEmitter:PlaySound("dontstarve/sanity/shadowhand_creep", "creeping")
+			hand.components.locomotor:SetReachDestinationCallback(function(hand)
+				hand.components.locomotor:SetReachDestinationCallback(nil)
+				hand.SoundEmitter:KillAllSounds()
+				hand.arm:Remove()
+				hand:Remove()
+			end)
+			if hand.arm and hand.components.locomotor then
+				hand.components.locomotor:GoToEntity(hand.arm, nil, false)
+			else
+				hand.SoundEmitter:KillAllSounds()
+				hand:Remove()
+			end
+		end
+		inst.snatcher_arms[dreamer] = { ["hand"] = hand, ["start"] = nil }
+		hand:SeekDreamer(inst, dreamer)
+	end
+
+	inst.Detach = function(inst, dreamer)
+		local tuple = inst.snatcher_arms[dreamer]
+		if not tuple then
+			return
+		end
+		if tuple.start then -- else it never attached
+			if inst.attached == 1 then
+				-- Last one -- switch back to idle
+				inst.AnimState:PushAnimation("snatch_pst", false)
+				inst.AnimState:PushAnimation("idle", true)
+				-- TODO use light tweener?
+				inst.disable_light_fn = function(inst)
+					inst:RemoveEventCallback("animover", inst.disable_light_fn)
+					inst.Light:Enable(false)
+					inst.disable_light_fn = nil
+				end
+				inst:ListenForEvent("animover", inst.disable_light_fn)
+			end
+			inst.attached = inst.attached - 1
+		end
+		local hand = tuple.hand
+		if not hand then
+			return
+		end
+		inst.snatcher_arms[dreamer] = nil
+		-- TODO could *almost* trigger "startaction" and avoid
+		--      writing our own Retract function.
+		hand:ClearBufferedAction()
+		hand:Retract()
+
+		if IsDST and not TheWorld.ismastersim then
+			return
+		end
+		local duration
+		if not tuple.start then
+			duration = 0
+		else
+			duration = GetTime() - tuple.start
+		end
+		inst:CollectSanity(dreamer, duration)
+	end
+	inst.CollectSanity = function(inst, dreamer, duration)
+	end
+
+	if IsDST then
+		inst.entity:SetPristine()
+		if not TheWorld.ismastersim then
+			return inst
+		end
+	end
+
+	inst.line = 1
+	inst:AddComponent("inspectable")
+	if not IsDST then
+		inst.components.inspectable:SetDescription(function(inspectme, viewer)
+			return ondescribe(inst, viewer)
+		end)
+	else
+		inst.components.inspectable.descriptionfn = ondescribe
+	end
+
 	inst:AddComponent("lootdropper")
 	inst.insanity = 0
 	inst.CollectSanity = function(inst, dreamer, duration)
+		if IsDST and not TheWorld.ismastersim then
+			return
+		end
 		if dreamer.components.sanity then
 			-- We've already collected the sanity over time.
 			-- Stop collecting via the sanity callbacks
@@ -252,165 +510,19 @@ local function fn(Sim)
 		end
 	end
 
-	inst.snatcher_arms = {}
-	inst.attached = 0
-	inst:ListenForEvent("onattachdreamer", function(inst, dreamer)
-		inst.attached = inst.attached + 1
-		inst.snatcher_arms[dreamer].start = GetTime()
-		if inst.attached == 1 then
-			-- TODO use light tweener?
-			inst.Light:Enable(true)
-			-- First to attach so initiate snatching animation loop
-			--inst.AnimState:PlayAnimation("snatch_pre", false)
-			inst.AnimState:PushAnimation("snatch_pre", false)
-			inst.AnimState:PushAnimation("snatch", true)
-		end
-		local dream = dreamer.components.dreamer.dream
-		if dream then
-			dream:Disturb()
-		end
-		if dreamer.components.sanity then
-			dreamer.sanitysuckfn = function(event)
-				-- All sanity lost accumulates towards
-				-- spawning nightmarefuel
-				local delta = event.oldpercent - event.newpercent
-				-- BUT Sleepers with positive sanity gain wipe
-				--     out any accumulation.
-				if delta < 0 then
-					inst.insanity = 0
-					return
-				end
-				inst.insanity = inst.insanity + delta
-			end
-			dreamer.sanefn = function(event)
-				-- Sleepers that go sane wipe out accumulation
-				inst.insanity = 0
-			end
-			dreamer.insanefn = function(event)
-				-- Sleepers that go insane boost nightmare 
-				-- production alot!
-				inst.insanity = inst.insanity + 100
-			end
-			inst:ListenForEvent("sanitydelta", dreamer.sanitysuckfn)
-			inst:ListenForEvent("gosane", dreamer.sanefn)
-			inst:ListenForEvent("goinsane", dreamer.insanefn)
-		end
-	end)
-	inst.Attach = function(inst, dreamer)
-		if not dreamer then
-			return
-		end
-		if inst.snatcher_arms[dreamer] then
-			return
-		end
-		local hand = SpawnPrefab("shadowhand")--"dreaming/dream_hand")
-		hand:AddTag("notarget")
-		hand:AddTag("notraptrigger")
-		hand.persists = false
-		RemovePhysicsColliders(hand)
-		hand.Physics:SetCollisionGroup(COLLISION.SANITY)
-		hand.Physics:CollidesWith(COLLISION.SANITY)
-		--hand.Physics:CollidesWith(COLLISION.WORLD)
-		hand.Physics:SetMass(10) -- Needs nonzero mass otherwise it never moves!
-		hand.arm = nil
-
-		-- Critical HACKS
-		-- Removing player proximity ensures the shadowhand never
-		-- starts searching for a fire.
-		hand:RemoveComponent("playerprox")
-		-- Removing the daytime callback ensures the hand works for
-		-- nocturnal dreamers too.
-		hand:RemoveEventCallback("daytime", hand.dissipatefn, GetWorld())
-		-- Removing this prevents the shadow arm and hand from being
-		-- saved and thus ensures that the above hacks are always
-		-- applied.
-		hand:RemoveComponent("knownlocations")
-
-		hand.Transform:SetPosition(inst.Transform:GetWorldPosition())
-
-		-- Tune sanity loss to account for extended contact
-		hand.components.sanityaura.aura = -TUNING.SANITYAURA_TINY
-
-		hand.SeekDreamer = function(hand, snatcher, dreamer)
-			hand:ClearBufferedAction()
-			hand.components.locomotor:Clear()
-			hand.arm = SpawnPrefab("shadowhand_arm")
-			hand.arm.persists = false
-			hand.arm:AddTag("notarget")
-			hand.arm:AddTag("notraptrigger")
-			hand.arm.Transform:SetPosition(hand.Transform:GetWorldPosition())
-			hand.arm:FacePoint(Vector3(dreamer.Transform:GetWorldPosition()))
-			hand.arm.components.stretcher:SetStretchTarget(hand)
-			hand.components.locomotor.walkspeed = 2
-			hand.components.locomotor:SetReachDestinationCallback(function(h)
-				assert(h == hand)
-				hand.AnimState:PlayAnimation("grab")
-				hand.SoundEmitter:KillAllSounds()
-				snatcher:PushEvent("onattachdreamer", dreamer)
-			end)
-			hand.components.locomotor:GoToEntity(dreamer, nil, false)
-		end
-		hand.Retract = function(hand)
-			hand.components.locomotor:Clear()
-			hand.components.locomotor.walkspeed = 10 
-			hand.AnimState:PlayAnimation("grab_pst")
-			hand.SoundEmitter:PlaySound("dontstarve/sanity/shadowhand_creep", "creeping")
-			hand.components.locomotor:SetReachDestinationCallback(function(h)
-				assert(h == hand)
-				hand.SoundEmitter:KillAllSounds()
-				hand.arm:Remove()
-				hand:Remove()
-			end)
-			hand.components.locomotor:GoToEntity(hand.arm, nil, false)
-		end
-		inst.snatcher_arms[dreamer] = { ["hand"] = hand, ["start"] = nil }
-		hand:SeekDreamer(inst, dreamer)
-	end
-
-	inst.Detach = function(inst, dreamer)
-		if not dreamer then
-			return
-		end
-		local tuple = inst.snatcher_arms[dreamer]
-		if not tuple then
-			return
-		end
-		if tuple.start then -- else it never attached
-			if inst.attached == 1 then
-				-- Last one -- switch back to idle
-				inst.AnimState:PushAnimation("snatch_pst", false)
-				inst.AnimState:PushAnimation("idle", true)
-				-- TODO use light tweener?
-				inst.disable_light_fn = function(inst)
-					inst:RemoveEventCallback("animover", inst.disable_light_fn)
-					inst.Light:Enable(false)
-				end
-				inst:ListenForEvent("animover", inst.disable_light_fn)
-			end
-			inst.attached = inst.attached - 1
-		end
-		local hand = tuple.hand
-		if not hand then
-			return
-		end
-		local duration
-		if not tuple.start then
-			duration = 0
-		else
-			duration = GetTime() - tuple.start
-		end
-		inst.snatcher_arms[dreamer] = nil
-		-- TODO could *almost* trigger "startaction" and avoid
-		--      writing our own Retract function.
-		hand:ClearBufferedAction()
-		hand:Retract()
-		inst:CollectSanity(dreamer, duration)
-	end
-
 	inst:AddComponent("playerprox")
-	inst.components.playerprox:SetDist(5,6)
-	inst.components.playerprox.onnear = onnear
-	inst.components.playerprox.onfar = onfar
+	local prox = inst.components.playerprox
+	prox:SetDist(5,6)
+	if IsDST then
+		-- Keep a set of players whose cameras are shaking
+		inst.shakees = {}
+	end
+	prox.onnear = onnear
+	prox.onfar = onfar
+	if IsDST then
+		prox:SetPlayerAliveMode(prox.AliveModes.AliveOnly)
+		prox:SetTargetMode(prox.TargetModes.AnyPlayer)
+	end
 
 	inst:AddComponent("sanityaura")
 	inst.components.sanityaura.aura = -TUNING.SANITYAURA_TINY

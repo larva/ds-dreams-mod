@@ -24,6 +24,8 @@ local function dream(Sim)
 	inst:AddTag("cloud")
 	inst:AddTag("notarget") -- See: shadowtentacle
 	inst:AddTag("notraptrigger")
+	inst:AddTag("fx")
+	inst:AddTag("FX")
 
 	inst.dreamer = nil
 	inst.persists = false
@@ -41,6 +43,11 @@ local function dream(Sim)
 
 	inst.entity:AddSoundEmitter()
 	inst.SoundEmitter:PlaySound("dontstarve/sanity/shadowhand_creep", "dreaming")
+
+	--
+	-- NOTE: No need for a network component since this object
+	--	 is purely for humorous effect.
+	--
 	inst.OnRemoveEntity = function(inst)
 		inst.SoundEmitter:KillAllSounds()
 		if inst.dreamer then
@@ -59,14 +66,19 @@ local function dream(Sim)
 	inst.isnightmare = false
 
 	inst:AddComponent("inspectable")
-	inst.components.inspectable:SetDescription(function(inst, viewer)
+	local descfn = function(inst, viewer)
 		if viewer and inst.dreamer and (viewer == inst.dreamer) then
 			local msgs = dreams[inst.isnightmare]
 			return msgs[math.random(#msgs)]
 		else
 			return "What an odd dream!"
 		end
-	end)
+	end
+	if IsDST then
+		inst.components.inspectable.descriptionfn = descfn
+	else
+		inst.components.inspectable:SetDescription(descfn)
+	end
 
 	inst.Disturb = function()
 		inst.AnimState:PushAnimation("nightmare", true)
