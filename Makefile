@@ -7,8 +7,11 @@ ANIM=~/.games/dont_starve/mods/mod_tools/scml
 # TODO anim/dream_tentacle.zip anim/dream_hand.zip
 all: images/modicon.tex images/dreamsnatcher.tex images/minimap.tex anim/dreamsnatcher.zip anim/dreams.zip
 
+anim/dreams.zip: $(wildcard art/dreams/*.png)
+anim/dreamsnatcher.zip: $(wildcard art/dreamsnatcher/*.png)
+
 anim/%.zip: art/%.scml
-	$(ANIM) $^ $(CURDIR)
+	$(ANIM) $< $(CURDIR)
 
 images/%.tex: images/%.png
 	$(TEX) $^ $(CURDIR)/images/
