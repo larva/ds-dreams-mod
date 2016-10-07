@@ -4,7 +4,7 @@ TEX=~/.games/dont_starve/mods/mod_tools/png
 ANIM=~/.games/dont_starve/mods/mod_tools/scml
 
 # TODO Add animations for dream_tentacle and dream_hand
-ANIMATIONS := dreams dreamsnatcher
+ANIMATIONS := dreams dreamsnatcher fade
 IMAGES := modicon dreamsnatcher minimap
 
 all: $(patsubst %,images/%.tex,$(IMAGES)) $(patsubst %,anim/%.zip,$(ANIMATIONS))

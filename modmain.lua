@@ -30,7 +30,7 @@ STRINGS.NAMES.DREAM_HAND_ITEM = "Dream feeding sucker"
 STRINGS.NAMES.DREAM_HAND = "Dream feeding sucker"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.DREAM_HAND = "It makes a hideous sucking sound as it reaps its stygian harvest!"
 
-PrefabFiles =  { "dreamsnatcher", "dream", }
+PrefabFiles =  { "dreamsnatcher", "dream", "fade", }
 
 Assets = {
 	Asset("ATLAS", "images/minimap.xml"),
