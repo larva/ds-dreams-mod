@@ -39,7 +39,7 @@ local function dream(Sim)
 	inst.Physics:CollidesWith(COLLISION.WORLD)
 	inst.Physics:SetMass(0)
 	inst.Transform:SetScale(0.5, 0.5, 0.5)
-	inst.AnimState:SetMultColour(1, 1, 1, 0.5)
+	inst.AnimState:SetMultColour(1, 1, 1, 0.75)
 
 	inst.entity:AddSoundEmitter()
 	inst.SoundEmitter:PlaySound("dontstarve/sanity/shadowhand_creep", "dreaming")
