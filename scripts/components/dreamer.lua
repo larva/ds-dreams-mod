@@ -17,7 +17,14 @@ function Dreamer:StartDreaming()
 		self.dream = SpawnPrefab("dreaming/dream")
 		self.dream.dreamer = self.inst
 		self.inst:AddChild(self.dream)
-		self.dream.Transform:SetPosition(0.0, 1.15, 0.0)
+
+		local height = 0.0
+		if self.inst.Physics then
+			local caph = math.max(0.2, 2*(self.inst.Physics:GetRadius() or 0.0), (self.inst.Physics:GetHeight() or 0.0))
+			height = height + caph
+		end
+
+		self.dream.Transform:SetPosition(0.0, height, 0.0)
 	end
 
 	if self.snatcher then
