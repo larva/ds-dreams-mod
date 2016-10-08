@@ -75,7 +75,7 @@ WrapAddRecipe("dreamsnatcher", {
 		Ingredient("goldnugget", 3),
 		Ingredient("silk",  6),
 		Ingredient("twigs", 6),
-		Ingredient("feathers", 2)
+		Ingredient("feather_crow", 2)
 	},
 	RECIPETABS.MAGIC, TECH.MAGIC_TWO,
 	nil,
