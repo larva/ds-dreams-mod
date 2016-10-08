@@ -1,13 +1,48 @@
+
 local Dreamer = Class(function(self, inst)
 	self.inst = inst
 	self.dream = nil
 	self.snatcher = nil
+	-- non-player (sleeper) events
 	self.inst:ListenForEvent("onwakeup", function(inst)
 		self:StopDreaming()
 	end)
 	self.inst:ListenForEvent("gotosleep", function(inst)
 		self:StartDreaming()
 	end)
+
+	if self.inst:HasTag("player") then
+		self.await_wake = false
+		self.await_sleep = true
+		self.inst:ListenForEvent("newstate", function(inst, data)
+			local dreamer = inst.components.dreamer
+			if dreamer.await_wake and data.statename == "wakeup" then
+				dreamer.await_wake = false
+				dreamer.await_sleep = true
+				dreamer:StopDreaming()
+				return
+			end
+			if dreamer.await_sleep and (data.statename == "bedroll" or data.statename == "tent") then
+				dreamer.await_sleep = false
+				dreamer.await_wake = true
+				-- TODO sync with end of animation
+				dreamer:StartDreaming()
+				return
+			end
+
+			if dreamer.await_sleep then
+				if dreamer.inst.sg:HasStateTag("sleeping") then
+					if dreamer.inst.sg:HasStateTag("waking") then
+						return
+					end
+					dreamer.await_sleep = false
+					dreamer.await_wake = true
+					dreamer:StartDreaming()
+					return
+				end
+			end
+		end)
+	end
 end)
 
 local search_radius = 20

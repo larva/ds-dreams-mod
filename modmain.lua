@@ -89,11 +89,15 @@ WrapAddRecipe("dreamsnatcher", {
 local function MakeDreamer(sleepercmp, inst)
 	inst:AddTag("sleeper") -- DST compat
 
-	-- disable structural sleeper/dreamers (dreamsnatcher, birdcage..)
+	-- Ignore structural sleepers (birdcage)
 	if inst:HasTag("structure") then
 		return
 	end
 	inst:AddComponent("dreamer")
 end
-
 AddComponentPostInit("sleeper", MakeDreamer)
+
+local function MakePlayerDreamer(inst)
+	inst:AddComponent("dreamer")
+end
+AddPlayerPostInit(MakePlayerDreamer)
