@@ -11,7 +11,7 @@ dont_starve_compatible = true
 reign_of_giants_compatible = true
 shipwrecked_compatible = true
 
---- TODO DST compat:
+--- DST compat:
 --- http://forums.kleientertainment.com/topic/47353-guide-getting-started-with-modding-dst-and-some-general-tips-for-ds-as-well/
 api_version_dst = 10
 dst_compatible = true
@@ -25,7 +25,7 @@ all_clients_require_mod = true
 --- in the mod list)
 clients_only_mod = false
 
---- END TODO DST compat
+--- END DST compat
 
 icon_atlas = "modicon.xml"
 icon = "modicon.tex"
