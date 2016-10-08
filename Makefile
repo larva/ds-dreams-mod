@@ -20,8 +20,8 @@ reset:
 	-@killall dontstarve_steam 2> /dev/null
 
 install: all
-	rsync -camOJWi --exclude=.git --exclude=art --exclude=old-art --exclude=old-src --exclude=art-src --exclude=.gitignore --exclude=Makefile --exclude='*~' --exclude='*.png' --exclude='*.kra' --exclude='*.swp' ./ ~/.games/dont_starve/mods/DreamSnatcher
-	rsync -camOJWi --exclude=.git --exclude=art --exclude=old-art --exclude=old-src --exclude=art-src --exclude=.gitignore --exclude=Makefile --exclude='*~' --exclude='*.png' --exclude='*.kra' --exclude='*.swp' ./ "${HOME}/.games/Don't Starve Together/mods/DreamSnatcher"
+	rsync -camOJWi --exclude=.git --exclude=art --exclude=old-art --exclude=old-src --exclude=art-src --exclude=.gitignore --exclude=TODO --exclude=Makefile --exclude='*~' --exclude='*.png' --exclude='*.kra' --exclude='*.swp' --exclude='*.patch' ./ ~/.games/dont_starve/mods/DreamSnatcher
+	rsync -camOJWi --exclude=.git --exclude=art --exclude=old-art --exclude=old-src --exclude=art-src --exclude=.gitignore --exclude=TODO --exclude=Makefile --exclude='*~' --exclude='*.png' --exclude='*.kra' --exclude='*.swp' --exclude='*.patch' ./ "${HOME}/.games/Don't Starve Together/mods/DreamSnatcher"
 
 clean:
 	find $(CURDIR) -name '*.tex' -print0 | xargs -r0 rm

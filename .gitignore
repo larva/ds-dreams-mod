@@ -6,6 +6,8 @@
 *.swp
 *.swp
 *.autosave.scml
+*.patch
+TODO
 /old-src/*
 /old-art/*
 /art-src/*
