@@ -308,24 +308,24 @@ local function fn(Sim)
 			return
 		end
 		dreamer.sanitysuckfn = function(event)
-			-- All sanity lost accumulates towards
-			-- spawning nightmarefuel
-			local delta = event.oldpercent - event.newpercent
-			-- BUT Sleepers with positive sanity gain wipe
-			--     out any accumulation.
+			-- All sanity gained by entities with sanity components
+			-- produces opposite amounts of insanity absorbed by
+			-- dream snatcher. Only insanity accumulates towards
+			-- spawning nightmarefuel.
+			local delta = event.newpercent - event.oldpercent
 			if delta < 0 then
-				inst.insanity = 0
 				return
 			end
 			inst.insanity = inst.insanity + delta
 		end
 		dreamer.sanefn = function(event)
-			-- Sleepers that go sane wipe out accumulation
+			-- HOWEVER: Sleepers that go sane wipe out accumulation
 			inst.insanity = 0
 		end
 		dreamer.insanefn = function(event)
-			-- Sleepers that go insane boost nightmare 
-			-- production alot!
+			-- AND: Sleepers that go insane boost nightmare 
+			-- production alot! This should be impossible because
+			-- sleeping restores sanity.
 			inst.insanity = inst.insanity + 100
 		end
 		inst:ListenForEvent("sanitydelta", dreamer.sanitysuckfn)
@@ -503,8 +503,18 @@ local function fn(Sim)
 			dreamer.sanefn = nil
 			dreamer.insanefn = nil
 		else
-			if duration >= 15 then -- 0.5*TUNING.seg_time
-				inst.insanity = inst.insanity + duration*TUNING.SANITYAURA_TINY
+			-- NPCs don't have a sanity component. Scale the
+			-- insanity accumulated by the duration of sleep.
+			-- Divide by the distance to the dream snatcher
+			-- much like the sanity component does for entities
+			-- with a sanity aura.
+			if duration >= (0.8*math.min(TUNING.MANDRAKE_SLEEP_TIME, TUNING.PANFLUTE_SLEEPTIME)) then -- approx 0.25*TUNING.seg_time
+				-- The duration threshold reduces the utility
+				-- of frequently-woken dreamers. Players that
+				-- scheme to put masses of NPCs to sleep must
+				-- time it well otherwise their efforts will
+				-- not be rewarded at all.
+				inst.insanity = inst.insanity + (duration*TUNING.SANITYAURA_TINY/math.max(1, inst:GetDistanceSqToInst(dreamer.inst)))
 			end
 		end
 

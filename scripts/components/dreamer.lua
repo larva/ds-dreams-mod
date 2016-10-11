@@ -45,7 +45,7 @@ local Dreamer = Class(function(self, inst)
 	end
 end)
 
-local search_radius = 20
+local search_radius = TUNING.SANITY_EFFECT_RANGE
 function Dreamer:StartDreaming()
 	if not self.dream then
 		-- See: components/frostbreather.lua and prefabs/frostbreath.lua
