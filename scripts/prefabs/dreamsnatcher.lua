@@ -1,3 +1,8 @@
+require "prefabutil"
+
+--
+-- Ravings from "The Raven", by Edgar Allen Poe
+--
 local ravings = {
 "Once upon a midnight dreary, while I pondered, weak and weary",
 "Over many a quaint and curious volume of forgotten lore",
@@ -127,12 +132,18 @@ local ravings = {
 "Shall be lifted -- nevermore!",
 }
 
+IsDST =  _G.kleifileexists("scripts/networking.lua") and true or false
+local IsDST = IsDST
+
 local assets = {
 	Asset("ANIM", "anim/dreamsnatcher.zip"),
 }
 
-IsDST =  _G.kleifileexists("scripts/networking.lua") and true or false
-local IsDST = IsDST
+local prefabs = {
+	"shadowhand",
+	"shadowhand_arm",
+	"nightmarefuel",
+}
 
 if IsDST then
 	local GetWorld = function()
@@ -537,4 +548,6 @@ local function fn(Sim)
 	return inst
 end
 
-return Prefab("magic/dreamsnatcher", fn, assets)
+return Prefab("common/dreamsnatcher", fn, assets, prefabs),
+	MakePlacer("dreamsnatcher_placer",
+			"dreamsnatcher", "dreamsnatcher", "idle")
