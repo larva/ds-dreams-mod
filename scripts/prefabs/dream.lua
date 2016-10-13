@@ -1,3 +1,6 @@
+IsDST =  _G.kleifileexists("scripts/networking.lua") and true or false
+local IsDST = IsDST
+
 local assets = {
 	Asset("ANIM", "anim/dreams.zip"),
 }
@@ -24,8 +27,23 @@ local function dream(Sim)
 	inst:AddTag("cloud")
 	inst:AddTag("notarget") -- See: shadowtentacle
 	inst:AddTag("notraptrigger")
+	inst:AddTag("NOBLOCK")
+	-- TODO might conflict with inspectable
+	inst:AddTag("NOCLICK")
 	inst:AddTag("fx")
 	inst:AddTag("FX")
+
+	-- Light like the fireflies and attract the catcoon
+	local light = inst.entity:AddLight()
+	light:Enable(true)
+	light:SetRadius(2)
+	light:SetFalloff(1)
+	light:SetIntensity(0.5)
+	light:SetColour(180/255, 195/255, 150/255)
+	if IsDST then
+		light:EnableClientModulation(true)
+	end
+	inst:AddTag("cattoyairborne")
 
 	inst.dreamer = nil
 	inst.persists = false
@@ -39,7 +57,7 @@ local function dream(Sim)
 	inst.Physics:CollidesWith(COLLISION.WORLD)
 	inst.Physics:SetMass(0)
 	inst.Transform:SetScale(0.5, 0.5, 0.5)
-	inst.AnimState:SetMultColour(1, 1, 1, 0.75)
+	inst.AnimState:SetMultColour(1, 1, 1, 0.8)
 
 	inst.entity:AddSoundEmitter()
 	inst.SoundEmitter:PlaySound("dontstarve/sanity/shadowhand_creep", "dreaming")

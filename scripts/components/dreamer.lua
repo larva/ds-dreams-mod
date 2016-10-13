@@ -53,6 +53,12 @@ function Dreamer:StartDreaming()
 		self.dream.dreamer = self.inst
 		self.inst:AddChild(self.dream)
 
+		if self.inst:HasTag("player") and self.dream.Light ~= nil then
+			-- TODO Don't let players escape the grue so easily!
+			self.dream.Light:SetIntensity(0.045)
+			--self.dream.Light:Enable(false)
+		end
+
 		local height = 0.0
 		if self.inst.Physics then
 			local caph = math.max(0.2, 2*(self.inst.Physics:GetRadius() or 0.0), (self.inst.Physics:GetHeight() or 0.0))
