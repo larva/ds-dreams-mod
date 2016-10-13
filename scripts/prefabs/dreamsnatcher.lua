@@ -508,13 +508,21 @@ local function fn(Sim)
 			-- Divide by the distance to the dream snatcher
 			-- much like the sanity component does for entities
 			-- with a sanity aura.
-			if duration >= (0.8*math.min(TUNING.MANDRAKE_SLEEP_TIME, TUNING.PANFLUTE_SLEEPTIME)) then -- approx 0.25*TUNING.seg_time
+			if duration and duration >= (0.8*math.min(TUNING.MANDRAKE_SLEEP_TIME, TUNING.PANFLUTE_SLEEPTIME)) then -- approx 0.25*TUNING.seg_time
 				-- The duration threshold reduces the utility
 				-- of frequently-woken dreamers. Players that
 				-- scheme to put masses of NPCs to sleep must
 				-- time it well otherwise their efforts will
 				-- not be rewarded at all.
-				inst.insanity = inst.insanity + (duration*TUNING.SANITYAURA_TINY/math.max(1, inst:GetDistanceSqToInst(dreamer.inst)))
+				local distsq = 1 
+				if inst ~= nil and dreamer ~= nil then
+					distsq = inst:GetDistanceSqToInst(dreamer)
+				else
+					distsq = TUNING.SANITY_EFFECT_RANGE
+					distsq = distsq*distsq
+				end
+				-- Use distance rather than distance squared
+				inst.insanity = inst.insanity + (duration*TUNING.SANITYAURA_TINY/math.max(1, math.sqrt(distsq)))
 			end
 		end
 
