@@ -8,8 +8,8 @@ local ravings = {
 "Over many a quaint and curious volume of forgotten lore",
 "While I nodded, nearly napping, suddenly there came a tapping",
 "As of some one gently rapping, rapping at my chamber door.",
-"\"'Tis some visitor,\" I muttered, \"tapping at my chamber door-",
-"Only this and nothing more.\"'",
+"\"\'Tis some visitor,\" I muttered, \"tapping at my chamber door-",
+"Only this and nothing more.\"",
 "",
 "Ah, distinctly I remember it was in the bleak December;",
 "And each separate dying ember wrought its ghost upon the floor.",
@@ -21,7 +21,7 @@ local ravings = {
 "And the silken, sad, uncertain rustling of each purple curtain",
 "Thrilled me -- filled me with fantastic terrors never felt before;",
 "So that now, to still the beating of my heart, I stood repeating",
-"\"'Tis some visitor entreating entrance at my chamber door--",
+"\"\'Tis some visitor entreating entrance at my chamber door--",
 "Some late visitor entreating entrance at my chamber door;--",
 "This it is and nothing more.\"",
 "",
@@ -35,8 +35,8 @@ local ravings = {
 "Deep into that darkness peering, long I stood there wondering, fearing,",
 "Doubting, dreaming dreams no mortal ever dared to dream before;",
 "But the silence was unbroken, and the stillness gave no token,",
-"And the only word there spoken was the whispered word, \"Lenore?\"",
-"This I whispered, and an echo murmured back the word, \"Lenore!\" --",
+"And the only word there spoken was the whispered word, \"Lenore\?\"",
+"This I whispered, and an echo murmured back the word, \"Lenore\!\" --",
 "Merely this and nothing more.",
 "",
 "Back into the chamber turning, all my soul within me burning,",
@@ -44,7 +44,7 @@ local ravings = {
 "\"Surely,\" said I, \"surely that is something at my window lattice;",
 "Let me see, then, what thereat is, and this mystery explore --",
 "Let my heart be still a moment and this mystery explore;-",
-"'Tis the wind and nothing more!\"",
+"\'Tis the wind and nothing more\!\"",
 "",
 "Open here I flung the shutter, when, with many a flirt and flutter,",
 "In there stepped a stately Raven of the saintly days of yore;",
@@ -57,7 +57,7 @@ local ravings = {
 "By the grave and stern decorum of the countenance it wore,",
 "\"Though thy crest be shorn and shaven, thou,\" I said, \"art sure no craven,",
 "Ghastly grim and ancient Raven wandering from the Nightly shore --",
-"Tell me what thy lordly name is on the Night’s Plutonian shore!\"",
+"Tell me what thy lordly name is on the Night\’s Plutonian shore\!\"",
 "Quoth the Raven \"Nevermore.\"",
 "",
 "Much I marvelled this ungainly fowl to hear discourse so plainly,",
@@ -69,7 +69,7 @@ local ravings = {
 "",
 "But the Raven, sitting lonely on the placid bust, spoke only",
 "That one word, as if his soul in that one word he did outpour.",
-"Nothing farther then he uttered -- not a feather then he fluttered—",
+"Nothing farther then he uttered -- not a feather then he fluttered--",
 "Till I scarcely more than muttered \"Other friends have flown before --",
 "On the morrow he will leave me, as my Hopes have flown before.\"",
 "Then the bird said \"Nevermore.\"",
@@ -79,7 +79,7 @@ local ravings = {
 "Caught from some unhappy master whom unmerciful Disaster",
 "Followed fast and followed faster till his songs one burden bore --",
 "Till the dirges of his Hope that melancholy burden bore",
-"Of 'Never -- nevermore'.\"",
+"Of \'Never -- nevermore\'.\"",
 "",
 
 "But the Raven still beguiling all my fancy into smiling,",
@@ -90,46 +90,46 @@ local ravings = {
 "Meant in croaking \"Nevermore.\"",
 "",
 "This I sat engaged in guessing, but no syllable expressing",
-"To the fowl whose fiery eyes now burned into my bosom's core;",
+"To the fowl whose fiery eyes now burned into my bosom\'s core;",
 "This and more I sat divining, with my head at ease reclining",
-"On the cushion's velvet lining that the lamp-light gloated o'er,",
-"But whose velvet-violet lining with the lamp-light gloating o'er,",
-"She shall press, ah, nevermore!",
+"On the cushion\'s velvet lining that the lamp-light gloated o\'er,",
+"But whose velvet-violet lining with the lamp-light gloating o\'er,",
+"She shall press, ah, nevermore\!",
 "",
 "Then, methought, the air grew denser, perfumed from an unseen censer",
 "Swung by Seraphim whose foot-falls tinkled on the tufted floor.",
 "\"Wretch,\" I cried, \"thy God hath lent thee -- by these angels he hath sent thee",
 "Respite -- respite and nepenthe from thy memories of Lenore;",
-"Quaff, oh quaff this kind nepenthe and forget this lost Lenore!\"",
+"Quaff, oh quaff this kind nepenthe and forget this lost Lenore\!\"",
 "Quoth the Raven \"Nevermore.\"",
 "",
-"\"Prophet!\" said I, \"thing of evil! -- prophet still, if bird or devil! --",
+"\"Prophet\!\" said I, \"thing of evil\! -- prophet still, if bird or devil\! --",
 "Whether Tempter sent, or whether tempest tossed thee here ashore,",
 "Desolate yet all undaunted, on this desert land enchanted --",
 "On this home by Horror haunted -- tell me truly, I implore --",
-"Is there -- is there balm in Gilead? -- tell me -- tell me, I implore!\"",
+"Is there -- is there balm in Gilead? -- tell me -- tell me, I implore\!\"",
 "Quoth the Raven \"Nevermore.\"",
 "",
-"\"Prophet!\" said I, \"thing of evil! -- prophet still, if bird or devil!",
+"\"Prophet\!\" said I, \"thing of evil\! -- prophet still, if bird or devil\!",
 "By that Heaven that bends above us -- by that God we both adore --",
 "Tell this soul with sorrow laden if, within the distant Aidenn,",
 "It shall clasp a sainted maiden whom the angels name Lenore --",
 "Clasp a rare and radiant maiden whom the angels name Lenore.\"",
 "Quoth the Raven \"Nevermore.\"",
 "",
-"\"Be that word our sign of parting, bird or fiend!\" I shrieked, upstarting --",
-"\"Get thee back into the tempest and the Night's Plutonian shore!",
-"Leave no black plume as a token of that lie thy soul hath spoken!",
-"Leave my loneliness unbroken! -- quit the bust above my door!",
-"Take thy beak from out my heart, and take thy form from off my door!\"",
+"\"Be that word our sign of parting, bird or fiend\!\" I shrieked, upstarting --",
+"\"Get thee back into the tempest and the Night\'s Plutonian shore\!",
+"Leave no black plume as a token of that lie thy soul hath spoken\!",
+"Leave my loneliness unbroken\! -- quit the bust above my door\!",
+"Take thy beak from out my heart, and take thy form from off my door\!\"",
 "Quoth the Raven \"Nevermore.\"",
 "",
 "And the Raven, never flitting, still is sitting, still is sitting",
 "On the pallid bust of Pallas just above my chamber door;",
-"And his eyes have all the seeming of a demon's that is dreaming,",
-"And the lamp-light o'er him streaming throws his shadow on the floor;",
+"And his eyes have all the seeming of a demon\'s that is dreaming,",
+"And the lamp-light o\'er him streaming throws his shadow on the floor;",
 "And my soul from out that shadow that lies floating on the floor",
-"Shall be lifted -- nevermore!",
+"Shall be lifted -- nevermore\!",
 }
 
 IsDST =  _G.kleifileexists("scripts/networking.lua") and true or false
@@ -171,16 +171,18 @@ local function GetPhase()
 	end
 end
 
+local INSANITY_THRESH = 100*(1.0 - TUNING.SANITY_BECOME_INSANE_THRESH)
+
 local function onnear(inst, player)
 
 	inst.SoundEmitter:PlaySound("dontstarve/rain/thunder_close", "rumble")
 
 	-- TheCamera:Shake(shakeType, duration, speed, scale)
-	-- See components/quaker.lua -- TODO no idea what "40" is!
+	-- See components/quaker.lua
 	local duration = 100000000 -- such a long time is sort of like forever
-	local intensity = math.min(100.0, inst.insanity)/100.0
-	local scale = 0.2*intensity
+	local intensity = math.min(INSANITY_THRESH, inst.insanity)/INSANITY_THRESH
 	local speed = 0.02*intensity
+	local scale = 0.5*intensity
 	if IsDST then
 		-- NOTE: player is non-nil in DST ONLY!
 		player:ScreenFlash(intensity)
@@ -247,6 +249,25 @@ local function onsave(inst, data)
 	data.insanity = inst.insanity
 end
 
+local function ignore_sanity_delta(inst, dreamer)
+	-- We've already collected the sanity over time.
+	-- Stop collecting via the sanity callbacks
+	if dreamer.sanitysuckfn ~= nil then
+		inst:RemoveEventCallback("sanitydelta", dreamer.sanitysuckfn)
+		dreamer.sanitysuckfn = nil
+	end
+end
+
+local function watch_sanity_delta(inst, dreamer)
+	ignore_sanity_delta(inst, dreamer)
+
+	dreamer.sanitysuckfn = function(event)
+		local delta = event.newpercent - event.oldpercent
+		inst:DoDelta(delta, event.overtime)
+	end
+	inst:ListenForEvent("sanitydelta", dreamer.sanitysuckfn)
+end
+
 local function fn(Sim)
 	local inst = CreateEntity()
 	inst.entity:AddTransform()
@@ -307,30 +328,7 @@ local function fn(Sim)
 		if not dreamer.components.sanity then
 			return
 		end
-		dreamer.sanitysuckfn = function(event)
-			-- All sanity gained by entities with sanity components
-			-- produces opposite amounts of insanity absorbed by
-			-- dream snatcher. Only insanity accumulates towards
-			-- spawning nightmarefuel.
-			local delta = event.newpercent - event.oldpercent
-			if delta < 0 then
-				return
-			end
-			inst.insanity = inst.insanity + delta
-		end
-		dreamer.sanefn = function(event)
-			-- HOWEVER: Sleepers that go sane wipe out accumulation
-			inst.insanity = 0
-		end
-		dreamer.insanefn = function(event)
-			-- AND: Sleepers that go insane boost nightmare 
-			-- production alot! This should be impossible because
-			-- sleeping restores sanity.
-			inst.insanity = inst.insanity + 100
-		end
-		inst:ListenForEvent("sanitydelta", dreamer.sanitysuckfn)
-		inst:ListenForEvent("gosane", dreamer.sanefn)
-		inst:ListenForEvent("goinsane", dreamer.insanefn)
+		watch_sanity_delta(inst, dreamer)
 	end)
 	inst.Attach = function(inst, dreamer)
 		if not dreamer then
@@ -381,6 +379,10 @@ local function fn(Sim)
 		hand.Transform:SetPosition(inst.Transform:GetWorldPosition())
 
 		-- Tune sanity loss to account for extended contact
+		-- TODO review how aura interacts with player's sanity gains
+		--	and losses while sleeping to ensure it can't make them
+		--	go insane too quickly nor can it halt/slow dreamsnatcher
+		--	nightmare accumulation..
 		if hand.components.sanityaura then
 			hand.components.sanityaura.aura = -TUNING.SANITYAURA_TINY
 		end
@@ -398,9 +400,15 @@ local function fn(Sim)
 			hand.components.locomotor.walkspeed = 2
 			hand.components.locomotor:SetReachDestinationCallback(function(hand)
 				hand.components.locomotor:SetReachDestinationCallback(nil)
-				hand.AnimState:PlayAnimation("grab")
-				hand.SoundEmitter:KillAllSounds()
-				snatcher:PushEvent("onattachdreamer", dreamer)
+				hand.animoverfn = function(hand)
+					hand:RemoveEventCallback("animover", hand.animoverfn)
+					hand.animoverfn = nil
+					hand.SoundEmitter:KillAllSounds()
+					snatcher:PushEvent("onattachdreamer",
+							   dreamer)
+				end
+				hand:ListenForEvent("animover", hand.animoverfn)
+				hand.AnimState:PlayAnimation("grab", false)
 			end)
 			hand.components.locomotor:GoToEntity(dreamer, nil, false)
 		end
@@ -489,6 +497,32 @@ local function fn(Sim)
 
 	inst:AddComponent("lootdropper")
 	inst.insanity = 0
+	inst.DoDelta = function(inst, delta, duration)
+		local oldpercent = inst.insanity / INSANITY_THRESH
+		inst.insanity = inst.insanity + delta
+		inst:PushEvent("sanitydelta", {
+			oldpercent = oldpercent,
+			newpercent = inst.insanity / INSANITY_THRESH,
+			overtime = duration or 1
+		})
+
+		if inst.insanity < INSANITY_THRESH then
+			return
+		end
+
+		-- Roughly speaking, somebody has to go insane to make one
+		-- nightmare fuel.
+
+		while inst.insanity >= INSANITY_THRESH do
+			inst.insanity = inst.insanity - INSANITY_THRESH
+			inst.components.lootdropper:SpawnLootPrefab("nightmarefuel")
+			inst:PushEvent("lootdropped")
+		end
+		if inst.insanity < 0 then
+			inst.insanity = 0
+		end
+	end
+
 	inst.CollectSanity = function(inst, dreamer, duration)
 		if IsDST and not TheWorld.ismastersim then
 			return
@@ -496,12 +530,7 @@ local function fn(Sim)
 		if dreamer.components.sanity then
 			-- We've already collected the sanity over time.
 			-- Stop collecting via the sanity callbacks
-			inst:RemoveEventCallback("sanitydelta", dreamer.sanitysuckfn)
-			inst:RemoveEventCallback("gosane", dreamer.sanefn)
-			inst:RemoveEventCallback("goinsane", dreamer.insanefn)
-			dreamer.sanitysuckfn = nil
-			dreamer.sanefn = nil
-			dreamer.insanefn = nil
+			ignore_sanity_delta(inst, dreamer)
 		else
 			-- NPCs don't have a sanity component. Scale the
 			-- insanity accumulated by the duration of sleep.
@@ -514,29 +543,17 @@ local function fn(Sim)
 				-- scheme to put masses of NPCs to sleep must
 				-- time it well otherwise their efforts will
 				-- not be rewarded at all.
-				local distsq = 1 
+				local dist = 1 
 				if inst ~= nil and dreamer ~= nil then
-					distsq = inst:GetDistanceSqToInst(dreamer)
+					dist = math.sqrt(inst:GetDistanceSqToInst(dreamer))
 				else
-					distsq = TUNING.SANITY_EFFECT_RANGE
-					distsq = distsq*distsq
+					dist = TUNING.SANITY_EFFECT_RANGE
 				end
-				-- Use distance rather than distance squared
-				inst.insanity = inst.insanity + (duration*TUNING.SANITYAURA_TINY/math.max(1, math.sqrt(distsq)))
+				local delta = duration*TUNING.SANITYAURA_TINY/math.max(1, math.sqrt(dist))
+				inst:DoDelta(delta, duration)
 			end
 		end
 
-		-- Roughly speaking, somebody has to go insane to make one
-		-- nightmare fuel.
-		local INSANITY_THRESH = 100*(1.0 - TUNING.SANITY_BECOME_INSANE_THRESH)
-
-		while inst.insanity >= INSANITY_THRESH do
-			inst.insanity = inst.insanity - INSANITY_THRESH
-			inst.components.lootdropper:SpawnLootPrefab("nightmarefuel")
-		end
-		if inst.insanity < 0 then
-			inst.insanity = 0
-		end
 	end
 
 	inst:AddComponent("playerprox")
