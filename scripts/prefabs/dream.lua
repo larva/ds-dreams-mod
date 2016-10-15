@@ -24,6 +24,7 @@ local function dream(Sim)
 	inst:AddTag("cloud")
 	inst:AddTag("notarget") -- See: shadowtentacle
 	inst:AddTag("notraptrigger")
+	inst:AddTag("cattoyairborne")
 	inst:AddTag("fx")
 	inst:AddTag("FX")
 

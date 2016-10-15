@@ -56,6 +56,10 @@ function Dreamer:StartDreaming()
 		-- See: components/frostbreather.lua and prefabs/frostbreath.lua
 		self.dream = SpawnPrefab("dreaming/dream")
 		self.dream.dreamer = self.inst
+
+		-- TODO We want to attach to the parent but
+		--	we do not want to be obscured from the world --
+		--	we want the catcoon to be able to find the dream.
 		self.inst:AddChild(self.dream)
 
 		local height = 0.0
@@ -65,6 +69,9 @@ function Dreamer:StartDreaming()
 		end
 
 		self.dream.Transform:SetPosition(0.0, height, 0.0)
+		--local pos = self.inst:GetPosition()
+		-- TODO pos.y = pos.y + height
+		--self.dream.Transform:SetPosition(pos:Get())
 	end
 
 	if self.snatcher then
