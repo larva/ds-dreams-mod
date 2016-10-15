@@ -141,7 +141,42 @@ local function MakeDreamer(sleepercmp, inst)
 end
 AddComponentPostInit("sleeper", MakeDreamer)
 
-local function MakePlayerDreamer(inst)
-	inst:AddComponent("dreamer")
+local hackPlayer = false
+if GetModConfigData then
+	hackPlayer = GetModConfigData("configHackPlayer")
 end
-AddPlayerPostInit(MakePlayerDreamer)
+
+if hackPlayer then
+	local SleepingBagDoSleep = nil
+	local PatchDoSleep = function(bag, doer)
+		local result = SleepingBagDoSleep(bag, doer)
+		if doer.components.sleeper ~= nil then
+			return result
+		end
+		if bag.inst.onuse ~= nil then
+			-- TODO This limits to bedroll_* only because
+			--	of some weird tent onsleep()
+			--	functionality.
+			doer:PushEvent("gotosleep")
+		end
+		return result
+	end
+
+	AddComponentPostInit("sleepingbag", function(bag, inst)
+		if bag ~= nil and bag.DoSleep ~=nil and DoSleep == nil then
+			SleepingBagDoSleep = bag.DoSleep
+		end
+		bag.DoSleep = PatchDoSleep
+	end)
+
+	local function AddPlayerDreamer(inst)
+		inst:AddComponent("dreamer")
+		inst:AddTag("DreamSnatcherHACK")
+	end
+	AddPlayerPostInit(AddPlayerDreamer)
+else
+	local function RemovePlayerDreamer(inst)
+		inst:RemoveTag("DreamSnatcherHACK")
+	end
+	AddPlayerPostInit(RemovePlayerDreamer)
+end

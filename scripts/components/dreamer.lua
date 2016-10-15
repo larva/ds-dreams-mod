@@ -1,48 +1,53 @@
-
 local Dreamer = Class(function(self, inst)
 	self.inst = inst
 	self.dream = nil
 	self.snatcher = nil
-	-- non-player (sleeper) events
+	self.await_wake = false
+	self.animoverfn = function(inst)
+		local dreamer = inst.components.dreamer
+		inst:RemoveEventCallback("animover",
+					dreamer.animoverfn)
+		dreamer:StartDreaming()
+		dreamer.await_wake = true
+	end
+
 	self.inst:ListenForEvent("onwakeup", function(inst)
+		self.await_wake = false
 		self:StopDreaming()
 	end)
+
 	self.inst:ListenForEvent("gotosleep", function(inst)
-		self:StartDreaming()
+		local dreamer = inst.components.dreamer
+		if inst.components.sleeper ~= nil then
+			inst:ListenForEvent("animover", self.animoverfn)
+		else
+			dreamer:StartDreaming()
+			dreamer.await_wake = true
+		end
 	end)
 
-	if self.inst:HasTag("player") then
-		self.await_wake = false
-		self.await_sleep = true
-		self.inst:ListenForEvent("newstate", function(inst, data)
-			local dreamer = inst.components.dreamer
-			if dreamer.await_wake and data.statename == "wakeup" then
-				dreamer.await_wake = false
-				dreamer.await_sleep = true
-				dreamer:StopDreaming()
-				return
-			end
-			if dreamer.await_sleep and (data.statename == "bedroll" or data.statename == "tent") then
-				dreamer.await_sleep = false
-				dreamer.await_wake = true
-				-- TODO sync with end of animation
-				dreamer:StartDreaming()
-				return
-			end
-
-			if dreamer.await_sleep then
-				if dreamer.inst.sg:HasStateTag("sleeping") then
-					if dreamer.inst.sg:HasStateTag("waking") then
-						return
-					end
-					dreamer.await_sleep = false
-					dreamer.await_wake = true
-					dreamer:StartDreaming()
-					return
-				end
-			end
-		end)
+	if not self.inst:HasTag("player") then
+		return
 	end
+
+	self.newstatefn = function(inst, data)
+		local dreamer = inst.components.dreamer
+		-- Can't check the Tag in the constructor because it's
+		-- added by a PrefabPostInit function.
+		if not inst:HasTag("DreamSnatcherHACK") then
+			inst:RemoveEventCallback("newstate", dreamer.newstatefn)
+			dreamer.newstatefn = nil
+			return
+		end
+
+		local newstate = data.statename
+		if dreamer.await_wake and newstate == "wakeup" then
+			dreamer.await_wake = false
+			inst:PushEvent("onwakeup")
+			return
+		end
+	end
+	self.inst:ListenForEvent("newstate", self.newstatefn)
 end)
 
 local search_radius = TUNING.SANITY_EFFECT_RANGE

@@ -1,5 +1,5 @@
 -- http://dont-starve-modding.wikia.com/wiki/Modinfo.lua 
-version = "0.758"
+version = "0.76"
 name = "Dream Snatcher"
 description = "Harnessing the stuff of nightmares. Haunt the dreams of your friends for fun and profit!"
 author = "larva"
@@ -30,4 +30,16 @@ clients_only_mod = false
 icon_atlas = "modicon.xml"
 icon = "modicon.tex"
 
-configuration_options = {}
+configuration_options = {
+	{
+		name = "configHackPlayer",
+		label = "Player dreams",
+		hover = "... and nightmares!",
+		options = {
+			{ description = "Yes", hover = "Chasing Dreams", data = true },
+			{ description = "No",  hover = "Hopeless", data = false },
+		},
+		-- NOTE: DST bug prevents changing configs on Linux!
+		default = true,
+	},
+}
